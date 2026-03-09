@@ -30,40 +30,119 @@ import nutrisport.shared.generated.resources.user
 import nutrisport.shared.generated.resources.vertical_menu
 import nutrisport.shared.generated.resources.weight
 
+/**
+ * Centralized access point for application drawable resources.
+ *
+ * This object organizes icons and images used across the UI layer
+ * to provide a consistent and maintainable way of referencing assets.
+ *
+ * Grouping resources in a structured hierarchy avoids hardcoding
+ * drawable references throughout the codebase and improves readability.
+ *
+ * The resources are sourced from Compose Multiplatform's generated
+ * `Res` class and can be used across supported platforms.
+ */
 object Resources {
+
+    /**
+     * Collection of commonly used UI icons.
+     *
+     * These icons are typically used for interactive elements such as
+     * buttons, navigation items, and action indicators.
+     */
     object Icon {
+
+        /** Icon representing an addition action. */
         val Plus = Res.drawable.plus
+
+        /** Icon representing a subtraction or removal action. */
         val Minus = Res.drawable.minus
+
+        /** Icon used for sign-in actions. */
         val SignIn = Res.drawable.log_in
+
+        /** Icon used for sign-out actions. */
         val SignOut = Res.drawable.log_out
+
+        /** Icon representing unlocking or authentication success. */
         val Unlock = Res.drawable.unlock
+
+        /** Icon used for search functionality. */
         val Search = Res.drawable.search
+
+        /** Icon representing a user or profile. */
         val Person = Res.drawable.user
+
+        /** Icon indicating success or confirmation. */
         val Checkmark = Res.drawable.check
+
+        /** Icon used for edit actions. */
         val Edit = Res.drawable.edit
+
+        /** Icon representing a navigation menu or drawer. */
         val Menu = Res.drawable.menu
+
+        /** Icon used for navigating back. */
         val BackArrow = Res.drawable.back_arrow
+
+        /** Icon indicating forward navigation. */
         val RightArrow = Res.drawable.right_arrow
+
+        /** Icon representing the home screen. */
         val Home = Res.drawable.home
+
+        /** Icon representing a shopping cart. */
         val ShoppingCart = Res.drawable.shopping_cart
+
+        /** Icon used to represent product categories. */
         val Categories = Res.drawable.grid
+
+        /** Icon representing currency or price. */
         val Dollar = Res.drawable.dollar
+
+        /** Icon representing a location or address. */
         val MapPin = Res.drawable.map_pin
+
+        /** Icon used to close dialogs or screens. */
         val Close = Res.drawable.close
+
+        /** Icon representing reading or documentation. */
         val Book = Res.drawable.book
+
+        /** Icon used for overflow menus or additional options. */
         val VerticalMenu = Res.drawable.vertical_menu
+
+        /** Icon representing delete or removal actions. */
         val Delete = Res.drawable.delete
+
+        /** Icon used for warning or alert messages. */
         val Warning = Res.drawable.warning
+
+        /** Icon representing weight or measurement. */
         val Weight = Res.drawable.weight
     }
 
+    /**
+     * Collection of image assets used within the application UI.
+     *
+     * These images are typically used for illustrations,
+     * branding, or decorative UI elements.
+     */
     object Image {
+
+        /** Illustration used in shopping cart related screens. */
         val ShoppingCart = Res.drawable.shopping_cart_image
+
+        /** Illustration used to represent successful actions. */
         val Checkmark = Res.drawable.checkmark_image
+
+        /** Decorative image used in UI layouts. */
         val Cat = Res.drawable.cat
+
+        /** Official Google logo used for authentication flows. */
         val GoogleLogo = Res.drawable.google_logo
+
+        /** PayPal logo used for payment related screens. */
         val PaypalLogo = Res.drawable.paypal_logo
     }
-
-    object F
 }
