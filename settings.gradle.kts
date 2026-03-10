@@ -31,7 +31,7 @@ include(":data")
 include(":data")
 include(":di")
 include(":feature:home")
-include(":feature:home")
+include(":feature:profile")
 
 include(":navigation")
 include(":feature:auth")
