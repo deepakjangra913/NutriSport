@@ -1,5 +1,6 @@
 package com.nutrisport.shared.navigation
 
+import androidx.compose.runtime.Stable
 import kotlinx.serialization.Serializable
 
 /**
@@ -15,6 +16,7 @@ import kotlinx.serialization.Serializable
  * destinations from being referenced throughout the application.
  */
 @Serializable
+@Stable
 sealed class Screen {
 
     /**

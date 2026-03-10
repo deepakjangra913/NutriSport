@@ -2,6 +2,7 @@ package com.nutrisport.data
 
 import com.nutrisport.data.domain.CustomerRepository
 import com.nutrisport.shared.domain.Customer
+import com.nutrisport.shared.util.RequestState
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.FirebaseUser
 import dev.gitlive.firebase.auth.auth
@@ -30,9 +31,14 @@ class CustomRepositoryImpl : CustomerRepository {
                 if (customerExist) {
 
                     // Updating the updated time
-                    val existingUser = getCurrentUser(user.uid)
+                    val existingUser = getCurrentUser()
                     customerCollection.document(user.uid)
-                        .update(customer.copy(updatedAt = currentTime, createdAt = existingUser?.createdAt))
+                        .update(
+                            customer.copy(
+                                updatedAt = currentTime,
+                                createdAt = existingUser?.createdAt
+                            )
+                        )
                     onSuccess()
                 } else {
                     customerCollection.document(user.uid).set(
@@ -51,16 +57,26 @@ class CustomRepositoryImpl : CustomerRepository {
         }
     }
 
-    override suspend fun getCurrentUser(uid: String): Customer? {
-        val customerCollection = Firebase.firestore.collection("customer")
-        val snapshot = customerCollection
-            .document(uid)
-            .get()
-
-        return snapshot.data<Customer>()
+    override suspend fun signOut(): RequestState<Unit> {
+        return try {
+            Firebase.auth.signOut()
+            RequestState.Success(data = Unit)
+        } catch (e: Exception) {
+            RequestState.Error("Error while signing out: ${e.message}")
+        }
     }
 
     override fun getCurrentUserId(): String? {
         return Firebase.auth.currentUser?.uid
+    }
+
+    override suspend fun getCurrentUser(): Customer? {
+        val user = Firebase.auth.currentUser ?: return null
+
+        return Firebase.firestore
+            .collection("customer")
+            .document(user.uid)
+            .get()
+            .data<Customer>()
     }
 }
