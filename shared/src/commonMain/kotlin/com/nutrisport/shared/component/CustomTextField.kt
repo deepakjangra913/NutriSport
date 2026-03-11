@@ -1,13 +1,13 @@
-package com.nutrisport.profile.component
+package com.nutrisport.shared.component
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
-import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -52,7 +52,7 @@ fun CustomTextField(
         shape = RoundedCornerShape(size = 6.dp),
         keyboardOptions = keyboardOptions,
         placeholder = if (placeholder != null) {
-            {
+            @Composable {
                 Text(
                     modifier = Modifier.alpha(Alpha.HALF),
                     text = placeholder,
@@ -62,10 +62,15 @@ fun CustomTextField(
         } else {
             null
         },
-        colors = TextFieldDefaults.textFieldColors(
-            backgroundColor = SurfaceLighter,
-            textColor = TextPrimary,
-            disabledTextColor = TextPrimary.copy(alpha = Alpha.DISABLED)
+        colors = TextFieldDefaults.colors(
+            focusedContainerColor = SurfaceLighter,
+            unfocusedContainerColor = SurfaceLighter,
+            focusedTextColor = TextPrimary,
+            unfocusedTextColor = TextPrimary,
+            disabledTextColor = TextPrimary.copy(alpha = Alpha.DISABLED),
+            focusedPlaceholderColor = TextPrimary.copy(alpha = Alpha.HALF),
+            unfocusedPlaceholderColor = TextPrimary.copy(alpha = Alpha.HALF),
+            disabledPlaceholderColor = TextPrimary.copy(alpha = Alpha.DISABLED)
         ),
         onValueChange = onValueChange
     )
