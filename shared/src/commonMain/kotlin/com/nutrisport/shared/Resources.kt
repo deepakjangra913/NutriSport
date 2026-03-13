@@ -1,7 +1,6 @@
 package com.nutrisport.shared
 
 import nutrisport.shared.generated.resources.Res
-import nutrisport.shared.generated.resources.warning
 import nutrisport.shared.generated.resources.back_arrow
 import nutrisport.shared.generated.resources.book
 import nutrisport.shared.generated.resources.cat
@@ -14,6 +13,7 @@ import nutrisport.shared.generated.resources.edit
 import nutrisport.shared.generated.resources.google_logo
 import nutrisport.shared.generated.resources.grid
 import nutrisport.shared.generated.resources.home
+import nutrisport.shared.generated.resources.india
 import nutrisport.shared.generated.resources.log_in
 import nutrisport.shared.generated.resources.log_out
 import nutrisport.shared.generated.resources.map_pin
@@ -23,11 +23,14 @@ import nutrisport.shared.generated.resources.paypal_logo
 import nutrisport.shared.generated.resources.plus
 import nutrisport.shared.generated.resources.right_arrow
 import nutrisport.shared.generated.resources.search
+import nutrisport.shared.generated.resources.serbia
 import nutrisport.shared.generated.resources.shopping_cart
 import nutrisport.shared.generated.resources.shopping_cart_image
 import nutrisport.shared.generated.resources.unlock
+import nutrisport.shared.generated.resources.usa
 import nutrisport.shared.generated.resources.user
 import nutrisport.shared.generated.resources.vertical_menu
+import nutrisport.shared.generated.resources.warning
 import nutrisport.shared.generated.resources.weight
 
 /**
@@ -144,5 +147,11 @@ object Resources {
 
         /** PayPal logo used for payment related screens. */
         val PaypalLogo = Res.drawable.paypal_logo
+    }
+
+    object Flag {
+        val India = Res.drawable.india
+        val Usa = Res.drawable.usa
+        val Serbia = Res.drawable.serbia
     }
 }
