@@ -1,19 +1,32 @@
 package com.nutrisport.shared.component
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.nutrisport.shared.component.dialog.CountryPickerDialog
+import com.nutrisport.shared.domain.Country
 
 @Composable
 fun ProfileForm(
     modifier: Modifier = Modifier,
+    country: Country,
+    onCountrySelect: (Country) -> Unit,
     firstName: String,
     onFirstNameChange: (String) -> Unit,
     lastName: String,
@@ -28,6 +41,23 @@ fun ProfileForm(
     phoneNumber: String,
     onPhoneNumberChange: (String) -> Unit
 ) {
+    var showCountryDialog by remember { mutableStateOf(false) }
+
+    AnimatedVisibility(
+        visible = showCountryDialog
+    ) {
+        CountryPickerDialog(
+            country = country,
+            onDismiss = {
+                showCountryDialog = false
+            },
+            onConfirmClick = { selectedCountry ->
+                onCountrySelect(selectedCountry)
+                showCountryDialog = false
+            }
+        )
+    }
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -75,11 +105,23 @@ fun ProfileForm(
             error = address.length !in 3..50
         )
 
-        CustomTextField(
-            value = phoneNumber,
-            onValueChange = onPhoneNumberChange,
-            placeholder = "Phone Number",
-            error = phoneNumber.length !in 3..50
-        )
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            AlertTextField(
+                text = "+ ${country.dialCode}",
+                icon = country.flag,
+                onClick = {
+                    showCountryDialog = true
+                }
+            )
+
+            Spacer(modifier = Modifier.width(12.dp))
+
+            CustomTextField(
+                value = country.name,
+                onValueChange = onPhoneNumberChange,
+                placeholder = "Phone Number",
+                error = phoneNumber.length !in 3..50
+            )
+        }
     }
 }

@@ -5,8 +5,8 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -33,7 +33,6 @@ fun AlertTextField(
 
     Row(
         modifier = modifier
-            .fillMaxWidth()
             .border(
                 width = 1.dp,
                 color = BorderIdle,
@@ -44,13 +43,14 @@ fun AlertTextField(
                 onClick()
             }
             .padding(
-                vertical = 20.dp,
+                vertical = 16.dp,
                 horizontal = 16.dp
             ),
         verticalAlignment = Alignment.CenterVertically
     ) {
         if (icon != null) {
             Image(
+                modifier = Modifier.size(14.dp),
                 painter = painterResource(icon),
                 contentDescription = "Text Field Icon"
             )

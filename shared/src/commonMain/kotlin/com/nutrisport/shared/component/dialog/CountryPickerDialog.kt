@@ -84,7 +84,7 @@ fun CountryPickerDialog(
         containerColor = Surface,
         shape = RoundedCornerShape(24.dp),
         onDismissRequest = {
-
+            onDismiss()
         },
         confirmButton = {
             TextButton(
