@@ -60,7 +60,6 @@ fun CustomTextField(
         placeholder = if (placeholder != null) {
             @Composable {
                 Text(
-                    modifier = Modifier.alpha(Alpha.HALF),
                     text = placeholder,
                     fontSize = FontSize.REGULAR
                 )

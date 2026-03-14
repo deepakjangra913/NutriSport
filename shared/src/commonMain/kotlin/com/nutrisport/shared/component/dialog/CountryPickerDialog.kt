@@ -6,14 +6,19 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
@@ -24,7 +29,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -44,23 +52,45 @@ import com.nutrisport.shared.SurfaceSecondary
 import com.nutrisport.shared.TextPrimary
 import com.nutrisport.shared.TextSecondary
 import com.nutrisport.shared.component.CustomTextField
+import com.nutrisport.shared.component.ErrorCard
 import com.nutrisport.shared.domain.Country
 import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun CountryPickerDialog(
     modifier: Modifier = Modifier,
+    country: Country,
+    onDismiss: () -> Unit,
+    onConfirmClick: (Country) -> Unit
 ) {
+    var selectedCountry by remember(country) {
+        mutableStateOf(country)
+    }
+    val allCountries = remember { Country.entries.toList() }
+    val filteredCountriesList = remember {
+        mutableStateListOf<Country>().apply {
+            addAll(allCountries)
+        }
+    }
+    var searchQuery by remember {
+        mutableStateOf("")
+    }
+
+    var isEmpty by remember(filteredCountriesList.size) {
+        mutableStateOf(filteredCountriesList.isEmpty())
+    }
+
     AlertDialog(
         containerColor = Surface,
+        shape = RoundedCornerShape(24.dp),
         onDismissRequest = {
 
         },
-
         confirmButton = {
             TextButton(
-                onClick = {},
+                onClick = {
+                    onConfirmClick(selectedCountry)
+                },
                 colors = ButtonDefaults.textButtonColors(
                     contentColor = TextSecondary,
                     containerColor = Color.Transparent
@@ -75,9 +105,11 @@ fun CountryPickerDialog(
         },
         dismissButton = {
             TextButton(
-                onClick = {},
+                onClick = {
+                    onDismiss()
+                },
                 colors = ButtonColors(
-                    containerColor = Surface,
+                    containerColor = Color.Transparent,
                     contentColor = TextPrimary.copy(alpha = Alpha.HALF),
                     disabledContainerColor = Surface,
                     disabledContentColor = Surface,
@@ -98,23 +130,64 @@ fun CountryPickerDialog(
             )
         },
         text = {
-            Column {
+            Column(
+                modifier = Modifier
+                    .height(300.dp)
+                    .fillMaxWidth()
+            ) {
                 CustomTextField(
-                    value = "",
-                    onValueChange = {},
+                    value = searchQuery,
+                    onValueChange = { query ->
+                        searchQuery = query
+                        if (searchQuery.isNotEmpty()) {
+                            val filtered = allCountries.filterByCountry(searchQuery)
+                            filteredCountriesList.clear()
+                            filteredCountriesList.addAll(filtered)
+                        } else {
+                            filteredCountriesList.clear()
+                            filteredCountriesList.addAll(allCountries)
+                        }
+                    },
                     placeholder = "Dial Code"
                 )
 
+                Spacer(
+                    modifier = Modifier.height(12.dp)
+                )
+
+                if (isEmpty.not()) {
+                    LazyColumn(
+                        modifier = Modifier.weight(1f),
+                        state = rememberLazyListState(),
+                        verticalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
+                        items(
+                            filteredCountriesList,
+                            key = { it.ordinal }) { country ->
+                            CountryPicker(
+                                country = country,
+                                isSelected = country == selectedCountry,
+                                onSelect = {
+                                    selectedCountry = country
+                                }
+                            )
+                        }
+                    }
+                } else {
+                    ErrorCard(
+                        modifier = Modifier.weight(1f),
+                        message = "Dial code not found."
+                    )
+                }
             }
         },
-        shape = RoundedCornerShape(size = 16.dp),
         titleContentColor = Surface,
         textContentColor = Surface
     )
 }
 
 @Composable
-fun CountryPicker(
+private fun CountryPicker(
     modifier: Modifier = Modifier,
     country: Country,
     isSelected: Boolean,
@@ -195,8 +268,12 @@ private fun Selector(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun CountryPickerDialogPreview() {
-    CountryPickerDialog()
+private fun List<Country>.filterByCountry(query: String): List<Country> {
+    val queryLower = query.lowercase()
+    val queryInt = query.toIntOrNull()
+
+    return this.filter {
+        it.name.lowercase().contains(queryLower) ||
+                (queryInt != null && it.dialCode == queryInt)
+    }
 }
