@@ -7,6 +7,9 @@ import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.FirebaseUser
 import dev.gitlive.firebase.auth.auth
 import dev.gitlive.firebase.firestore.firestore
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.channelFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlin.time.Clock
 
 class CustomRepositoryImpl : CustomerRepository {
@@ -54,6 +57,40 @@ class CustomRepositoryImpl : CustomerRepository {
             }
         } catch (e: Exception) {
             onError("Error while creating a Customer: ${e.message}")
+        }
+    }
+
+    override fun readCustomerFlow(): Flow<RequestState<Customer>> = channelFlow {
+        try {
+            val userId = getCurrentUserId()
+            if (userId != null) {
+                val database = Firebase.firestore
+                database
+                    .collection("customer")
+                    .document(userId)
+                    .snapshots.collectLatest { document ->
+                        if (document.exists) {
+                            val customer = Customer(
+                                id = document.id,
+                                firstName = document.get("firstName"),
+                                lastName = document.get("lastName"),
+                                email = document.get("email"),
+                                city = document.get("city"),
+                                postalCode = document.get("postalCode"),
+                                address = document.get("address"),
+                                phoneNumber = document.get("phoneNumber"),
+                                cart = document.get("cart"),
+                            )
+                            send(RequestState.Success(customer))
+                        } else {
+                            send(RequestState.Error("Queried customer document does not exist."))
+                        }
+                    }
+            } else {
+                send(RequestState.Error("User is not available."))
+            }
+        } catch (ex: Exception) {
+            send(RequestState.Error("Error while reading customer information: ${ex.message}"))
         }
     }
 

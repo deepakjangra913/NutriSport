@@ -46,7 +46,11 @@ fun SetUpNavigationGraph(startDestination: Screen = Screen.Auth) {
         }
 
         composable<Screen.Profile> {
-            ProfileScreen()
+            ProfileScreen(
+                onBackPress = {
+                    navController.navigateUp()
+                }
+            )
         }
     }
 }

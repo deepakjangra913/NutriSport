@@ -1,13 +1,13 @@
 package com.nutrisport.shared.component
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -19,6 +19,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.nutrisport.shared.SurfaceLighter
 import com.nutrisport.shared.component.dialog.CountryPickerDialog
 import com.nutrisport.shared.domain.Country
 
@@ -61,9 +62,8 @@ fun ProfileForm(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(vertical = 12.dp, horizontal = 24.dp)
-            .verticalScroll(rememberScrollState())
-            .imePadding(),
+            .imePadding()
+            .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         CustomTextField(
@@ -107,6 +107,7 @@ fun ProfileForm(
 
         Row(verticalAlignment = Alignment.CenterVertically) {
             AlertTextField(
+                modifier = Modifier.background(SurfaceLighter),
                 text = "+ ${country.dialCode}",
                 icon = country.flag,
                 onClick = {
@@ -117,7 +118,7 @@ fun ProfileForm(
             Spacer(modifier = Modifier.width(12.dp))
 
             CustomTextField(
-                value = country.name,
+                value = phoneNumber,
                 onValueChange = onPhoneNumberChange,
                 placeholder = "Phone Number",
                 error = phoneNumber.length !in 3..50

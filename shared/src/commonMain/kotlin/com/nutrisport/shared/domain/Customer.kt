@@ -9,7 +9,7 @@ data class Customer(
     val lastName: String,
     val email: String,
     val city: String? = null,
-    val postalCode: String? = null,
+    val postalCode: Int? = null,
     val address: String? = null,
     val phoneNumber: PhoneNumber? = null,
     val createdAt: Long? = null,
