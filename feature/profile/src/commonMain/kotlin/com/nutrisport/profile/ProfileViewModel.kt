@@ -36,7 +36,9 @@ class ProfileViewModel(
             initialValue = RequestState.Loading
         )
 
-    var screenState: RequestState<ProfileScreenState> by mutableStateOf(RequestState.Loading)
+    var screenReady: RequestState<Unit> by mutableStateOf(RequestState.Loading)
+        private set
+    var screenState: ProfileScreenState by mutableStateOf(ProfileScreenState())
         private set
 
     init {
@@ -44,23 +46,74 @@ class ProfileViewModel(
             customer.collectLatest { data ->
                 if (data.isSuccess()) {
                     val fetchedCustomer = data.getSuccessData()
-                    screenState = RequestState.Success(
-                        data = ProfileScreenState(
-                            firstName = fetchedCustomer.firstName,
-                            lastName = fetchedCustomer.lastName,
-                            email = fetchedCustomer.email,
-                            city = fetchedCustomer.city,
-                            postalCode = fetchedCustomer.postalCode,
-                            address = fetchedCustomer.address,
-                            phoneNumber = fetchedCustomer.phoneNumber,
-                            country = Country.entries.firstOrNull { it.dialCode == fetchedCustomer.phoneNumber?.dialCode }
-                                ?: Country.India
-                        )
+                    screenState = ProfileScreenState(
+                        firstName = fetchedCustomer.firstName,
+                        lastName = fetchedCustomer.lastName,
+                        email = fetchedCustomer.email,
+                        city = fetchedCustomer.city,
+                        postalCode = fetchedCustomer.postalCode,
+                        address = fetchedCustomer.address,
+                        phoneNumber = fetchedCustomer.phoneNumber,
+                        country = Country.entries.firstOrNull { it.dialCode == fetchedCustomer.phoneNumber?.dialCode }
+                            ?: Country.India
                     )
+                    screenReady = RequestState.Success(Unit)
                 } else if (data.isError()) {
-                    screenState = RequestState.Error(data.getErrorMessage())
+                    screenReady = RequestState.Error(data.getErrorMessage())
                 }
             }
         }
+    }
+
+    fun updateFirstName(
+        value: String
+    ) {
+        screenState = screenState.copy(firstName = value)
+    }
+
+    fun updateLastName(
+        value: String
+    ) {
+        screenState =
+            screenState.copy(lastName = value)
+    }
+
+    fun updateCity(
+        value: String
+    ) {
+        screenState =
+            screenState.copy(city = value)
+    }
+
+    fun updatePostalCode(
+        value: Int?
+    ) {
+        screenState =
+            screenState.copy(postalCode = value)
+
+    }
+
+    fun updateAddress(
+        value: String
+    ) {
+        screenState =
+            screenState.copy(address = value)
+    }
+
+    fun updateCountry(
+        value: Country
+    ) {
+        screenState =
+            screenState.copy(country = value)
+    }
+
+    fun updatePhoneNumber(value: String) {
+        screenState =
+            screenState.copy(
+                phoneNumber = PhoneNumber(
+                    dialCode = screenState.country.dialCode,
+                    number = value
+                )
+            )
     }
 }
