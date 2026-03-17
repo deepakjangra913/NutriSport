@@ -2,10 +2,13 @@ package com.nutrisport.home.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -16,7 +19,6 @@ import com.nutrisport.shared.BebasNeueFont
 import com.nutrisport.shared.FontSize
 import com.nutrisport.shared.TextBrand
 import com.nutrisport.shared.TextPrimary
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun CustomDrawer(
@@ -28,9 +30,11 @@ fun CustomDrawer(
     onAdminPanelClick: () -> Unit
 ) {
     Column(
-        modifier = Modifier.fillMaxHeight()
+        modifier = Modifier
+            .fillMaxHeight()
             .fillMaxWidth(.6f)
             .padding(horizontal = 12.dp)
+            .windowInsetsPadding(WindowInsets.safeDrawing)
     ) {
         Spacer(
             modifier = Modifier.height(50.dp)
@@ -78,17 +82,4 @@ fun CustomDrawer(
                 onAdminPanelClick()
             })
     }
-}
-
-@Preview
-@Composable
-fun CustomDrawerPreview() {
-    CustomDrawer(
-        onProfileClick = {},
-        onBlogClick = {},
-        onLocationsClick = {},
-        onContactUsClick = {},
-        onSignOutClick = {},
-        onAdminPanelClick = {}
-    )
 }
