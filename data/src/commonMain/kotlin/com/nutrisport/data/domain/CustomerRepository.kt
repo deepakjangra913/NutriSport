@@ -17,5 +17,11 @@ interface CustomerRepository {
     suspend fun signOut(): RequestState<Unit>
     suspend fun getCurrentUser(): Customer?
 
+    suspend fun updateCustomer(
+        customer: Customer,
+        onSuccess: () -> Unit,
+        onError: (String) -> Unit
+    )
+
     fun getCurrentUserId(): String?
 }
