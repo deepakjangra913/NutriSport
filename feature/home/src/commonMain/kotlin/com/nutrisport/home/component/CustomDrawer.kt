@@ -68,7 +68,7 @@ fun CustomDrawer(
                         DrawerItem.ContactUs -> onContactUsClick()
                         DrawerItem.SignOut -> onSignOutClick()
                         DrawerItem.Admin -> {
-                            // No need to handle this here
+                            onAdminPanelClick()
                         }
                     }
                 }

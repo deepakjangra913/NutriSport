@@ -12,6 +12,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -42,7 +43,7 @@ fun ProfileScreen(
     val isFormValid = viewModel.isFormValid
 
     Scaffold(
-        contentColor = Surface,
+        containerColor = Surface,
         topBar = {
             TopAppBar(
                 title = {
@@ -63,9 +64,16 @@ fun ProfileScreen(
                             tint = IconPrimary
                         )
                     }
-                }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Surface,
+                    scrolledContainerColor = Surface,
+                    navigationIconContentColor = IconPrimary,
+                    titleContentColor = TextPrimary,
+                    actionIconContentColor = IconPrimary
+                )
             )
-        }
+        },
     ) { padding ->
         ContentWithMessageBar(
             contentBackgroundColor = Surface,
