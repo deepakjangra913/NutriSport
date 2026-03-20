@@ -33,6 +33,8 @@ object Alpha {
      */
     const val TEN_PERCENT = 0.1f
 
+    const val TWENTY_PERCENT = 0.2f
+
     /**
      * Fully transparent element (completely invisible).
      */

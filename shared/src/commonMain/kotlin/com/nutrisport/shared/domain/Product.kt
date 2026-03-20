@@ -24,8 +24,8 @@ data class Product(
 )
 
 enum class ProductCategory(
-    title: String,
-    color: Color
+    val title: String,
+    val color: Color
 ) {
     Protein(
         title = "Protein",
