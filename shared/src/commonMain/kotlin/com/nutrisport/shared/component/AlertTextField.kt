@@ -1,6 +1,7 @@
 package com.nutrisport.shared.component
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
@@ -17,11 +18,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.nutrisport.shared.BorderIdle
 import com.nutrisport.shared.FontSize
-import com.nutrisport.shared.Resources
+import com.nutrisport.shared.SurfaceLighter
 import com.nutrisport.shared.TextPrimary
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun AlertTextField(
@@ -33,6 +33,7 @@ fun AlertTextField(
 
     Row(
         modifier = modifier
+            .background(color = SurfaceLighter)
             .border(
                 width = 1.dp,
                 color = BorderIdle,
@@ -62,14 +63,4 @@ fun AlertTextField(
             color = TextPrimary
         )
     }
-}
-
-@Preview
-@Composable
-fun AlertTextFieldPreview() {
-    AlertTextField(
-        text = "Value",
-        icon = Resources.Icon.Person,
-        onClick = {}
-    )
 }

@@ -18,12 +18,15 @@ import com.nutrisport.shared.Surface
 import com.nutrisport.shared.TextPrimary
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import rememberMessageBarState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AdminPanelScreen(
-    navigateBack: () -> Unit
+    navigateBack: () -> Unit,
+    navigateToManageProduct: (String?) -> Unit
 ) {
+    
     Scaffold(
         containerColor = Surface,
         topBar = {
@@ -69,7 +72,9 @@ fun AdminPanelScreen(
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = {},
+                onClick = {
+                    navigateToManageProduct(null)
+                },
                 contentColor = IconPrimary,
                 containerColor = ButtonPrimary,
                 content = {
@@ -81,14 +86,15 @@ fun AdminPanelScreen(
             )
         }
     ) {
-        
+
     }
 }
 
 @Preview
 @Composable
 fun AdminPanelScreenPreview() {
-    AdminPanelScreen {
-
-    }
+    AdminPanelScreen(
+        navigateBack = {},
+        navigateToManageProduct = {}
+    )
 }
