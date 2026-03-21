@@ -126,7 +126,10 @@ fun CategoryPickerDialog(
                             .clickable {
                                 selectedCategory = currentCategory
                             }
-                            .padding(12.dp),
+                            .padding(
+                                horizontal = 12.dp,
+                                vertical = 16.dp
+                            ),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
