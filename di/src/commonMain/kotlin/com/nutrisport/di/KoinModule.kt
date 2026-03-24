@@ -14,21 +14,55 @@ import org.koin.core.module.Module
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
+/**
+ * Shared Koin module containing common dependency definitions used across platforms.
+ *
+ * This module registers:
+ * - Repository implementations for [CustomerRepository] and [AdminRepository]
+ * - Shared ViewModels used in the application
+ *
+ * These dependencies are available for all targets unless overridden by a platform-specific module.
+ */
 val sharedModule = module {
     single<CustomerRepository> { CustomRepositoryImpl() }
-    single<AdminRepository>{ AdminRepositoryImpl() }
+    single<AdminRepository> { AdminRepositoryImpl() }
     viewModelOf(::AuthViewModel)
     viewModelOf(::HomeGraphViewModel)
     viewModelOf(::ProfileViewModel)
     viewModelOf(::ManageProductViewModel)
 }
 
+/**
+ * Platform-specific Koin module expected from each target source set.
+ *
+ * Each platform such as Android or iOS must provide its own actual implementation
+ * of this module to register target-specific dependencies.
+ */
 expect val targetModule: Module
 
+/**
+ * Initializes Koin dependency injection for the application.
+ *
+ * This function starts Koin with:
+ * - The shared module containing common dependencies
+ * - The platform-specific [targetModule]
+ * - An optional [config] block for additional Koin configuration
+ *
+ * The [config] parameter can be used to add extra setup such as logging,
+ * properties, or additional modules during initialization.
+ *
+ * Example:
+ * ```kotlin
+ * initializeKoin {
+ *     printLogger()
+ * }
+ * ```
+ *
+ * @param config Optional Koin application configuration block.
+ */
 fun initializeKoin(
-    config: (KoinApplication.()-> Unit)? = null
-){
-
+    config: (KoinApplication.() -> Unit)? = null
+) {
     startKoin {
         config?.invoke(this)
         modules(sharedModule, targetModule)

@@ -68,6 +68,25 @@ import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 import rememberMessageBarState
 
+/**
+ * Displays the product management screen used for creating a new product
+ * or updating an existing one.
+ *
+ * This screen lets the user:
+ * - upload a product thumbnail
+ * - enter product details such as title, description, category, weight,
+ *   flavours, and price
+ * - validate the form before submission
+ * - create or update the product using the associated ViewModel
+ *
+ * A category picker dialog is shown when the category field is tapped,
+ * and thumbnail upload state is rendered using [RequestState] through
+ * [DisplayResult].
+ *
+ * @param id Optional product id. When `null`, the screen behaves as an
+ * add-product screen. When non-null, it behaves as an edit-product screen.
+ * @param navigateBack Callback invoked when the top app bar back button is pressed.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ManageProductScreen(
