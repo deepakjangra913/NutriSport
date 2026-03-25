@@ -243,7 +243,8 @@ fun ManageProductScreen(
                                         content = {
                                             Text(
                                                 text = "Try Again",
-                                                fontSize = FontSize.SMALL
+                                                fontSize = FontSize.SMALL,
+                                                color = TextPrimary
                                             )
                                         }
                                     )

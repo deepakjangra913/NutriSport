@@ -45,7 +45,7 @@ actual class PhotoPicker {
     /**
      * Internal state that controls whether the photo picker should be opened.
      */
-    private var openPhotoPicker by mutableStateOf(false)
+    private var openPhotoPicker = mutableStateOf(false)
 
     /**
      * Triggers the opening of the system photo picker.
@@ -54,7 +54,7 @@ actual class PhotoPicker {
      * to launch the picker.
      */
     actual fun open() {
-        openPhotoPicker = true
+        openPhotoPicker.value = true
     }
 
     /**
@@ -68,16 +68,17 @@ actual class PhotoPicker {
      */
     @Composable
     actual fun InitializePhotoPicker(onImageSelect: (File?) -> Unit) {
-        val openPickerState = remember { openPhotoPicker }
+        val openPickerState by remember { openPhotoPicker }
 
         val pickMedia = rememberLauncherForActivityResult(
             contract = ActivityResultContracts.PickVisualMedia()
         ) { uri ->
             uri?.let { onImageSelect(File(it)) } ?: onImageSelect(null)
+            openPhotoPicker.value = false
         }
 
         LaunchedEffect(openPickerState) {
-            if (openPhotoPicker) {
+            if (openPickerState) {
                 pickMedia.launch(
                     PickVisualMediaRequest(
                         ActivityResultContracts.PickVisualMedia.ImageOnly
