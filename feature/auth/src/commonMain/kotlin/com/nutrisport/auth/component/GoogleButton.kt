@@ -38,6 +38,43 @@ import com.nutrisport.shared.TextPrimary
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 
+/**
+ * A customizable Google Sign-In button with built-in loading state handling.
+ *
+ * This composable displays a button styled for Google authentication, showing
+ * an icon and text by default, and switching to a loading indicator with
+ * alternate text when [loading] is true.
+ *
+ * Features:
+ * - Displays Google logo with primary text in idle state.
+ * - Shows a circular progress indicator with secondary text during loading.
+ * - Disables clicks while loading to prevent multiple triggers.
+ * - Smoothly animates content changes using [AnimatedContent] and [animateContentSize].
+ * - Fully customizable appearance including shape, colors, and text.
+ *
+ * Behavior:
+ * - When [loading] is `true`, the button:
+ *   - Replaces the icon with a progress indicator.
+ *   - Updates the displayed text to [secondaryText].
+ *   - Disables click interactions.
+ * - When [loading] is `false`, the button:
+ *   - Displays the Google icon and [primaryText].
+ *   - Enables click interactions.
+ *
+ * @param modifier Modifier to be applied to the button container.
+ * @param loading Controls the loading state of the button.
+ * @param primaryText Text displayed when the button is idle.
+ * @param secondaryText Text displayed when the button is in loading state.
+ * @param icon Drawable resource representing the Google logo.
+ * @param shape Shape of the button.
+ * @param backgroundColor Background color of the button.
+ * @param borderColor Border color of the button.
+ * @param progressIndicatorColor Color of the loading indicator.
+ * @param onClick Callback invoked when the button is clicked (only when not loading).
+ *
+ * @see AnimatedContent
+ * @see CircularProgressIndicator
+ */
 @Composable
 fun GoogleButton(
     modifier: Modifier = Modifier,

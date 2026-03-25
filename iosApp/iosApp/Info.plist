@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>GIDServerClientID</key>
-	<string>539029834135-o99ude9vhvi719lh5g2p7n5q1s97j6p7.apps.googleusercontent.com</string>
+	<string>771528812551-8qvq0pk8eecfavuvimtp712lt7h1h4mh.apps.googleusercontent.com</string>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleURLTypes</key>
@@ -11,11 +11,11 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.539029834135-msetimil79ve3qdcqqdr3pg7kud3spgo</string>
+				<string>com.googleusercontent.apps.771528812551-bm1iml5ketm9ennfek1gqvsi4ipdhfag</string>
 			</array>
 		</dict>
 	</array>
 	<key>GIDClientID</key>
-	<string>539029834135-msetimil79ve3qdcqqdr3pg7kud3spgo.apps.googleusercontent.com</string>
+	<string>771528812551-bm1iml5ketm9ennfek1gqvsi4ipdhfag.apps.googleusercontent.com</string>
 </dict>
 </plist>

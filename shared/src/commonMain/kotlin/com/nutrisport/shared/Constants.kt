@@ -2,5 +2,5 @@ package com.nutrisport.shared
 
 object Constants
 {
-    const val WEB_CLIENT_ID = "539029834135-o99ude9vhvi719lh5g2p7n5q1s97j6p7.apps.googleusercontent.com"
+    const val WEB_CLIENT_ID = "771528812551-8qvq0pk8eecfavuvimtp712lt7h1h4mh.apps.googleusercontent.com"
 }

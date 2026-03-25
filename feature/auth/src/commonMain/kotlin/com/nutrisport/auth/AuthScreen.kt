@@ -37,7 +37,35 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 import rememberMessageBarState
 
-@Preview(showBackground = true)
+/**
+ * Authentication screen that handles user sign-in using Google and Firebase.
+ *
+ * This composable displays a branded sign-in UI along with a Google Sign-In button.
+ * Upon successful authentication, it creates a customer entry via [AuthViewModel]
+ * and navigates the user to the home screen.
+ *
+ * Features:
+ * - Displays app branding and sign-in prompt.
+ * - Integrates Google Sign-In with Firebase authentication.
+ * - Shows success and error messages using a message bar.
+ * - Handles loading state during authentication.
+ * - Performs navigation after successful sign-in with a slight delay.
+ *
+ * Flow:
+ * 1. User clicks on the Google Sign-In button.
+ * 2. Authentication result is received via [onResult].
+ * 3. On success:
+ *    - Calls [AuthViewModel.createCustomer].
+ *    - Shows a success message.
+ *    - Navigates to home after a delay.
+ * 4. On failure:
+ *    - Displays appropriate error messages (network, cancellation, or unknown).
+ *
+ * @param navigateToHome Callback invoked after successful authentication and customer creation.
+ *
+ * @see AuthViewModel
+ * @see GoogleButtonUiContainerFirebase
+ */
 @Composable
 fun AuthScreen(navigateToHome: () -> Unit) {
 
