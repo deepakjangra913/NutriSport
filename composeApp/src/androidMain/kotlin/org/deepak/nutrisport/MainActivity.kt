@@ -10,6 +10,28 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 
+/**
+ * Main entry point Activity for the Android application.
+ *
+ * This activity sets up the initial UI using Jetpack Compose and configures
+ * system-level behaviors such as splash screen and edge-to-edge rendering.
+ *
+ * Responsibilities:
+ * - Displays the system splash screen using [installSplashScreen].
+ * - Enables edge-to-edge layout for immersive UI experience.
+ * - Configures transparent status and navigation bars.
+ * - Sets the root composable [App] as the activity content.
+ *
+ * Behavior:
+ * - On creation, the splash screen is shown until the app is ready.
+ * - System bars are configured with light appearance and transparent backgrounds.
+ * - The Compose UI is rendered using [setContent].
+ *
+ * @see ComponentActivity
+ * @see installSplashScreen
+ * @see enableEdgeToEdge
+ * @see App
+ */
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,10 +50,4 @@ class MainActivity : ComponentActivity() {
             App()
         }
     }
-}
-
-@Preview
-@Composable
-fun AppAndroidPreview() {
-    App()
 }
