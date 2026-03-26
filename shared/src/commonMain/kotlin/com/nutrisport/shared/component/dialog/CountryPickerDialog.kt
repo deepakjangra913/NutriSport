@@ -124,7 +124,7 @@ fun CountryPickerDialog(
         modifier = modifier,
         title = {
             Text(
-                text = "Pick a Country",
+                text = "Select a Country",
                 fontSize = FontSize.EXTRA_MEDIUM,
                 color = TextPrimary
             )
