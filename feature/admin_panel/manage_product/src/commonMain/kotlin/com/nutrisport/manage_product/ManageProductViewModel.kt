@@ -241,4 +241,19 @@ class ManageProductViewModel(
             updateThumbnailUploaderState(RequestState.Error("Error while uploading: ${e.message}"))
         }
     }
+
+    fun deleteThumbnailFromStorage(
+        onSuccess: () -> Unit,
+        onError: (String) -> Unit
+    ) = viewModelScope.launch {
+        adminRepository.deleteImageFromStorage(
+            downloadUrl = screenState.thumbnail,
+            onSuccess = {
+                updateThumbnail(thumbnail = "")
+                updateThumbnailUploaderState(RequestState.Idle)
+                onSuccess()
+            },
+            onError = onError
+        )
+    }
 }

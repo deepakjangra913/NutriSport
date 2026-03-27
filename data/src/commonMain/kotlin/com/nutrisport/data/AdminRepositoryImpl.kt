@@ -52,4 +52,20 @@ class AdminRepositoryImpl : AdminRepository {
             null
         }
     }
+
+    override suspend fun deleteImageFromStorage(
+        downloadUrl: String,
+        onSuccess: () -> Unit,
+        onError: (String) -> Unit
+    ) {
+        try {
+            Firebase.storage
+                .getReferenceFromUrl(downloadUrl)
+                .delete()
+
+            onSuccess()
+        } catch (e: Exception) {
+            onError("Error while deleting a thumbnail: ${e.message}")
+        }
+    }
 }
