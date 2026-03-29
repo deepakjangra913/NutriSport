@@ -1,12 +1,15 @@
 package com.nutrisport.shared.component
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -23,6 +26,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import coil3.compose.LocalPlatformContext
@@ -37,6 +42,7 @@ import com.nutrisport.shared.SurfaceLighter
 import com.nutrisport.shared.TextPrimary
 import com.nutrisport.shared.TextSecondary
 import com.nutrisport.shared.domain.Product
+import com.nutrisport.shared.domain.ProductCategory
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -47,7 +53,9 @@ fun ProductCard(
     onClick: (String) -> Unit
 ) {
     Row(
-        modifier.fillMaxWidth()
+        modifier
+            .fillMaxWidth()
+            .height(IntrinsicSize.Min)
             .clip(RoundedCornerShape(12.dp))
             .border(
                 width = 1.dp,
@@ -60,7 +68,9 @@ fun ProductCard(
             }
     ) {
         AsyncImage(
-            modifier = Modifier.width(120.dp)
+            modifier = Modifier
+                .width(120.dp)
+                .fillMaxHeight()
                 .clip(RoundedCornerShape(12.dp))
                 .border(
                     width = 1.dp,
@@ -88,7 +98,9 @@ fun ProductCard(
                 text = product.title,
                 fontSize = FontSize.MEDIUM,
                 color = TextPrimary,
-                fontFamily = RobotoCondensedFont()
+                fontFamily = RobotoCondensedFont(),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
 
             Spacer(modifier = Modifier.height(4.dp))
@@ -99,6 +111,8 @@ fun ProductCard(
                     .alpha(Alpha.HALF),
                 text = product.description,
                 fontSize = FontSize.REGULAR,
+                lineHeight = FontSize.REGULAR * 1.3,
+                letterSpacing = TextUnit(0f, TextUnitType.Sp),
                 color = TextPrimary,
                 maxLines = 3,
                 overflow = TextOverflow.Ellipsis
@@ -112,20 +126,30 @@ fun ProductCard(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
 
-                Row {
-                    Icon(
-                        modifier = Modifier.size(14.dp),
-                        painter = painterResource(Resources.Icon.Weight),
-                        contentDescription = "Weight icon"
-                    )
+                AnimatedContent(
+                    targetState = product.category
+                ) { category ->
+                    if (ProductCategory.valueOf(category) == ProductCategory.Accessories) {
+                        Spacer(Modifier.weight(1f))
+                    } else {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                modifier = Modifier.size(14.dp),
+                                painter = painterResource(Resources.Icon.Weight),
+                                contentDescription = "Weight icon"
+                            )
 
-                    Spacer(modifier = Modifier.width(4.dp))
+                            Spacer(modifier = Modifier.width(4.dp))
 
-                    Text(
-                        text = "${product.weight}g",
-                        fontSize = FontSize.EXTRA_SMALL,
-                        color = TextPrimary,
-                    )
+                            Text(
+                                text = "${product.weight}g",
+                                fontSize = FontSize.EXTRA_SMALL,
+                                color = TextPrimary,
+                            )
+                        }
+                    }
                 }
 
                 Text(
@@ -148,7 +172,7 @@ fun ProductCardReview() {
             title = "Nutrend 100% Whey protein",
             description = "Page layouts look better with something in each section. Web page designers, content writers, and layout artists use lorem ipsum, also known ",
             thumbnail = "",
-            category = "",
+            category = ProductCategory.Accessories.name,
             flavours = listOf(),
             weight = 2,
             price = 100.0,

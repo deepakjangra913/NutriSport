@@ -262,6 +262,7 @@ fun ManageProductScreen(
                                     horizontalAlignment = Alignment.CenterHorizontally
                                 ) {
                                     ErrorCard(
+                                        modifier = Modifier.fillMaxWidth(),
                                         message = message
                                     )
                                     Spacer(modifier = Modifier.height(12.dp))
@@ -306,21 +307,31 @@ fun ManageProductScreen(
                             showCategoriesShow = true
                         }
                     )
-                    CustomTextField(
-                        value = screenState.weight?.toString().orEmpty(),
-                        onValueChange = { text ->
-                            viewModel.updateWeight(text.toIntOrNull() ?: 0)
-                        },
-                        placeholder = "Weight (Optional)",
-                        keyboardOptions = KeyboardOptions(
-                            keyboardType = KeyboardType.Number
-                        )
-                    )
-                    CustomTextField(
-                        value = screenState.flavours,
-                        onValueChange = viewModel::updateFlavours,
-                        placeholder = "Flavours (Optional)"
-                    )
+                    AnimatedVisibility(
+                        visible = screenState.category != ProductCategory.Accessories
+                    ) {
+                        Column {
+                            CustomTextField(
+                                value = screenState.weight?.toString().orEmpty(),
+                                onValueChange = { text ->
+                                    viewModel.updateWeight(text.toIntOrNull() ?: 0)
+                                },
+                                placeholder = "Weight",
+                                keyboardOptions = KeyboardOptions(
+                                    keyboardType = KeyboardType.Number
+                                )
+                            )
+
+                            Spacer(modifier = Modifier.height(12.dp))
+
+                            CustomTextField(
+                                value = screenState.flavours,
+                                onValueChange = viewModel::updateFlavours,
+                                placeholder = "Flavours"
+                            )
+                        }
+                    }
+
                     CustomTextField(
                         value = screenState.price.toString(),
                         onValueChange = { text ->
