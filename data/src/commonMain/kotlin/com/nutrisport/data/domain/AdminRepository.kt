@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface AdminRepository {
 
-    fun getCustomerUserId(): String?
+    fun getCurrentUserId(): String?
 
     suspend fun createProduct(
         product: Product,
@@ -24,4 +24,6 @@ interface AdminRepository {
     )
 
     fun readLastTenProducts() : Flow<RequestState<List<Product>>>
+
+    suspend fun readProductById(id: String): RequestState<Product>
 }

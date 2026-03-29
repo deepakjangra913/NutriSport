@@ -17,7 +17,7 @@ import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
 class AdminRepositoryImpl : AdminRepository {
-    override fun getCustomerUserId(): String? = Firebase.auth.currentUser?.uid
+    override fun getCurrentUserId(): String? = Firebase.auth.currentUser?.uid
 
     override suspend fun createProduct(
         product: Product,
@@ -25,7 +25,7 @@ class AdminRepositoryImpl : AdminRepository {
         onError: (String) -> Unit
     ) {
         try {
-            val currentUserId = getCustomerUserId()
+            val currentUserId = getCurrentUserId()
             if (currentUserId != null) {
                 val firestore = Firebase.firestore
                 val productCollection = firestore.collection("products")
@@ -42,7 +42,7 @@ class AdminRepositoryImpl : AdminRepository {
 
     @OptIn(ExperimentalUuidApi::class)
     override suspend fun uploadImageToStorage(file: File): String? {
-        return if (getCustomerUserId() != null) {
+        return if (getCurrentUserId() != null) {
             val storage = Firebase.storage.reference
             val imagePath = storage.child(path = "images/{${Uuid.random().toHexString()}}")
             try {
@@ -76,7 +76,7 @@ class AdminRepositoryImpl : AdminRepository {
 
     override fun readLastTenProducts(): Flow<RequestState<List<Product>>> = channelFlow {
         try {
-            val userId = getCustomerUserId()
+            val userId = getCurrentUserId()
             if (userId != null) {
                 val database = Firebase.firestore
                 database.collection(collectionPath = "products")
@@ -107,6 +107,41 @@ class AdminRepositoryImpl : AdminRepository {
             }
         } catch (e: Exception) {
             send(RequestState.Error("Error while reading the last 10 times from the database: ${e.message}"))
+        }
+    }
+
+    override suspend fun readProductById(id: String): RequestState<Product> {
+        return try {
+            val currentUserId = getCurrentUserId()
+            if (currentUserId != null) {
+                val database = Firebase.firestore
+                val productDocument = database.collection("products").document(id)
+                    .get()
+                if (productDocument.exists) {
+                    val product = Product(
+                        id = productDocument.id,
+                        title = productDocument.get(field = "title"),
+                        createdAt = productDocument.get(field = "createdAt"),
+                        description = productDocument.get(field = "description"),
+                        thumbnail = productDocument.get(field = "thumbnail"),
+                        category = productDocument.get(field = "category"),
+                        flavours = productDocument.get(field = "flavours"),
+                        weight = productDocument.get(field = "weight"),
+                        price = productDocument.get(field = "price"),
+                        isPopular = productDocument.get(field = "isPopular"),
+                        isDiscounted = productDocument.get(field = "isDiscounted"),
+                        isNew = productDocument.get(field = "isNew")
+                    )
+
+                    RequestState.Success(product)
+                } else {
+                    RequestState.Error("Selected product is not found.")
+                }
+            } else {
+                RequestState.Error("User is not available.")
+            }
+        } catch (ex: Exception) {
+            RequestState.Error("Error while reading a selected product: ${ex.message}")
         }
     }
 }
