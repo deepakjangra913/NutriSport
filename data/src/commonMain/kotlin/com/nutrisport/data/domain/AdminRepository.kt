@@ -23,7 +23,19 @@ interface AdminRepository {
         onError: (String) -> Unit
     )
 
-    fun readLastTenProducts() : Flow<RequestState<List<Product>>>
+    fun readLastTenProducts(): Flow<RequestState<List<Product>>>
 
     suspend fun readProductById(id: String): RequestState<Product>
+    suspend fun updateImageThumbnail(
+        productId: String,
+        downloadUrl: String,
+        onSuccess: () -> Unit,
+        onError: (String) -> Unit
+    )
+
+    suspend fun updateProduct(
+        product: Product,
+        onSuccess: () -> Unit,
+        onError: (String) -> Unit
+    )
 }

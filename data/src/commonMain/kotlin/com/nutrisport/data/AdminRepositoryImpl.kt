@@ -135,13 +135,67 @@ class AdminRepositoryImpl : AdminRepository {
 
                     RequestState.Success(product)
                 } else {
-                    RequestState.Error("Selected product is not found.")
+                    RequestState.Error("Selected product not found.")
                 }
             } else {
                 RequestState.Error("User is not available.")
             }
         } catch (ex: Exception) {
             RequestState.Error("Error while reading a selected product: ${ex.message}")
+        }
+    }
+
+    override suspend fun updateImageThumbnail(
+        productId: String,
+        downloadUrl: String,
+        onSuccess: () -> Unit,
+        onError: (String) -> Unit
+    ) {
+        try {
+            val userId = getCurrentUserId()
+            if (userId != null) {
+                val database = Firebase.firestore
+                val productCollection = database.collection("products")
+                val existingProduct = productCollection.document(productId).get()
+                if (existingProduct.exists) {
+                    productCollection.document(productId)
+                        .update("thumbnail" to downloadUrl)
+                    onSuccess()
+                } else {
+                    onError("Selected product not found.")
+                }
+            } else {
+                onError("User is not available.")
+            }
+        } catch (ex: Exception) {
+            onError("Error while updating thumbnail: ${ex.message}")
+        }
+    }
+
+    override suspend fun updateProduct(
+        product: Product,
+        onSuccess: () -> Unit,
+        onError: (String) -> Unit
+    ) {
+        try {
+            val userId = getCurrentUserId()
+            if (userId != null) {
+                val database = Firebase.firestore
+                val productCollection = database.collection("products")
+                val existingProduct = productCollection.document(product.id).get()
+                if (existingProduct.exists) {
+                    productCollection
+                        .document(product.id)
+                        .update(product)
+                    onSuccess()
+                } else {
+                    onError("Selected product not found.")
+                }
+            } else {
+                onError("User is not available.")
+            }
+        } catch (ex: Exception) {
+            onError("Error while updating thumbnail: ${ex.message}")
         }
     }
 }

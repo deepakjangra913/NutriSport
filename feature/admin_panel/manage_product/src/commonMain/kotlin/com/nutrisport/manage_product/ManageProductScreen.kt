@@ -351,13 +351,23 @@ fun ManageProductScreen(
                     icon = if (id == null) Resources.Icon.Plus else Resources.Icon.Checkmark,
                     enabled = isFormValid,
                     onClick = {
-                        viewModel.createProduct(
-                            onSuccess = {
-                                messageBarState.addSuccess("Product successfully added!")
-                            },
-                            onError = { message ->
-                                messageBarState.addError(message)
-                            })
+                        if (id != null) {
+                            viewModel.updateProduct(
+                                onSuccess = {
+                                    messageBarState.addSuccess("Product successfully updated!")
+                                },
+                                onError = { message ->
+                                    messageBarState.addError(message)
+                                })
+                        } else {
+                            viewModel.createProduct(
+                                onSuccess = {
+                                    messageBarState.addSuccess("Product successfully added!")
+                                },
+                                onError = { message ->
+                                    messageBarState.addError(message)
+                                })
+                        }
                     }
                 )
             }
