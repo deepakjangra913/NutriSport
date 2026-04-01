@@ -357,4 +357,21 @@ class ManageProductViewModel(
             )
         }
     }
+
+    fun deleteProduct(
+        onSuccess: () -> Unit,
+        onError: (String) -> Unit
+    ) = viewModelScope.launch {
+        productId.takeIf { it.isNotEmpty() }?.let { id ->
+            adminRepository.deleteProduct(
+                productId = id,
+                onSuccess = {
+
+                },
+                onError = { message ->
+
+                }
+            )
+        }
+    }
 }

@@ -26,6 +26,7 @@ import kotlin.time.Clock
  * @property isDiscounted Indicates whether the product is currently discounted.
  * @property isNew Indicates whether the product is newly added.
  */
+@Serializable
 data class Product(
     val id: String,
     val createdAt: Long = Clock.System.now().toEpochMilliseconds(),
