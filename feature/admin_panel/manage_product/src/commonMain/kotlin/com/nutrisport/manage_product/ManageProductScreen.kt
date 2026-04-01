@@ -20,6 +20,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -98,6 +100,7 @@ fun ManageProductScreen(
     var selectedCategory by remember { mutableStateOf(ProductCategory.Protein) }
     val messageBarState = rememberMessageBarState()
     var showCategoriesShow by remember { mutableStateOf(false) }
+    var dropDownMenuOpen by remember { mutableStateOf(false) }
     val viewModel = koinViewModel<ManageProductViewModel>()
     val screenState = viewModel.screenState
     val isFormValid = viewModel.isFormValid
@@ -157,6 +160,55 @@ fun ManageProductScreen(
                     titleContentColor = TextPrimary,
                     actionIconContentColor = IconPrimary
                 ),
+                actions = {
+                    id.takeIf { it.isNullOrEmpty().not() }?.let {
+
+                        Box {
+                            IconButton(onClick = {
+                                dropDownMenuOpen = true
+                            }) {
+                                Icon(
+                                    painterResource(Resources.Icon.VerticalMenu),
+                                    contentDescription = "Vertical menu icon",
+                                    tint = IconPrimary
+                                )
+                            }
+
+                            DropdownMenu(
+                                containerColor = Surface,
+                                expanded = dropDownMenuOpen,
+                                onDismissRequest = {
+                                    dropDownMenuOpen = false
+                                },
+                                content = {
+                                    DropdownMenuItem(
+                                        leadingIcon = {
+                                            Icon(
+                                                modifier = Modifier.size(14.dp),
+                                                painter = painterResource(Resources.Icon.Delete),
+                                                contentDescription = "Product Delete Icon",
+                                                tint = IconPrimary
+                                            )
+                                        },
+                                        text = {
+                                            Text(text = "Delete", color = TextPrimary)
+                                        },
+                                        onClick = {
+                                            dropDownMenuOpen = false
+                                            viewModel.deleteProduct(
+                                                onSuccess = {
+                                                    navigateBack()
+                                                },
+                                                onError = { message ->
+                                                    messageBarState.addError(message)
+                                                })
+                                        }
+                                    )
+                                }
+                            )
+                        }
+                    }
+                }
             )
         }
     ) { padding ->

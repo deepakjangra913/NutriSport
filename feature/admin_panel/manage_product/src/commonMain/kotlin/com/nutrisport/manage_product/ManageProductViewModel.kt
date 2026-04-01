@@ -366,10 +366,14 @@ class ManageProductViewModel(
             adminRepository.deleteProduct(
                 productId = id,
                 onSuccess = {
-
+                    deleteThumbnailFromStorage(
+                        onSuccess = {},
+                        onError = { message -> }
+                    )
+                    onSuccess()
                 },
                 onError = { message ->
-
+                    onError(message)
                 }
             )
         }
