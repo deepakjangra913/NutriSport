@@ -1,7 +1,6 @@
 package com.nutrisport.admin_panel
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,7 +16,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -97,7 +95,11 @@ fun AdminPanelScreen(
                                     IconButton(
                                         modifier = Modifier.size(14.dp),
                                         onClick = {
-                                            viewModel.updatedSearchQuery("")
+                                            if (searchQuery.isNotEmpty()){
+                                                viewModel.updatedSearchQuery("")
+                                            }else{
+                                                searchBarVisible = false
+                                            }
                                         }) {
                                         Icon(
                                             painter = painterResource(Resources.Icon.Close),
@@ -177,23 +179,34 @@ fun AdminPanelScreen(
                 )
             },
             onSuccess = { lastProducts ->
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(
-                            all = 12.dp
-                        ),
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    items(
-                        items = lastProducts,
-                        key = { it.id })
-                    { product ->
-                        ProductCard(
-                            product = product,
-                            onClick = {
-                                navigateToManageProduct(product.id)
+                AnimatedContent(targetState = lastProducts) {
+                    if (lastProducts.isNotEmpty()) {
+                        LazyColumn(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(
+                                    all = 12.dp
+                                ),
+                            verticalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
+                            items(
+                                items = lastProducts,
+                                key = { it.id })
+                            { product ->
+                                ProductCard(
+                                    product = product,
+                                    onClick = {
+                                        navigateToManageProduct(product.id)
+                                    }
+                                )
                             }
+                        }
+                    } else {
+                        InfoCard(
+                            modifier = Modifier.fillMaxSize(),
+                            icon = Resources.Image.Cat,
+                            title = "Oops!",
+                            subTitle = "Products not found"
                         )
                     }
                 }
