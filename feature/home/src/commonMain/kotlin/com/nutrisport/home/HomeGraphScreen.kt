@@ -33,6 +33,7 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -69,6 +70,7 @@ fun HomeGraphScreen(
     val navController = rememberNavController()
     val currentRoute = navController.currentBackStackEntryAsState()
     val viewModel = koinViewModel<HomeGraphViewModel>()
+    val customer by viewModel.customerData.collectAsStateWithLifecycle()
 
     val selectedDestination by remember {
         derivedStateOf {
@@ -124,6 +126,7 @@ fun HomeGraphScreen(
             .background(animatedBackground)
     ) {
         CustomDrawer(
+            customer,
             onProfileClick = {
                 navigateToProfile()
             },

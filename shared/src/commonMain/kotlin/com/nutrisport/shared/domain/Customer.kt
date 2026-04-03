@@ -14,7 +14,8 @@ data class Customer(
     val phoneNumber: PhoneNumber? = null,
     val createdAt: Long? = null,
     val updatedAt: Long? = null,
-    val cart: List<CartItem> = emptyList()
+    val cart: List<CartItem> = emptyList(),
+    val isAdmin: Boolean = false
 )
 
 @Serializable

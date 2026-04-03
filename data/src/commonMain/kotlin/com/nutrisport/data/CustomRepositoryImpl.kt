@@ -44,12 +44,18 @@ class CustomRepositoryImpl : CustomerRepository {
                         )
                     onSuccess()
                 } else {
+
                     customerCollection.document(user.uid).set(
                         customer.copy(
                             createdAt = currentTime,
                             updatedAt = currentTime
                         )
                     )
+
+                    customerCollection.document(user.uid)
+                        .collection("privateData")
+                        .document("role")
+                        .set(mapOf("isAdmin" to false))
                     onSuccess()
                 }
             } else {
@@ -70,6 +76,12 @@ class CustomRepositoryImpl : CustomerRepository {
                     .document(userId)
                     .snapshots.collectLatest { document ->
                         if (document.exists) {
+                            val privateDataDocument = database.collection(collectionPath = "customer")
+                                .document(userId)
+                                .collection("privateData")
+                                .document("role")
+                                .get()
+
                             val customer = Customer(
                                 id = document.id,
                                 firstName = document.get("firstName"),
@@ -80,6 +92,7 @@ class CustomRepositoryImpl : CustomerRepository {
                                 address = document.get("address"),
                                 phoneNumber = document.get("phoneNumber"),
                                 cart = document.get("cart"),
+                                isAdmin = privateDataDocument.get("isAdmin")
                             )
                             send(RequestState.Success(customer))
                         } else {
