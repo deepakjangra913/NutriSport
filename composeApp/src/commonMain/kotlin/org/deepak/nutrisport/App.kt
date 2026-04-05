@@ -20,10 +20,8 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.koinInject
 
 @Composable
-@Preview
 fun App() {
     MaterialTheme {
-
         val customerRepository = koinInject<CustomerRepository>()
         var appReady by remember {
             mutableStateOf(false)

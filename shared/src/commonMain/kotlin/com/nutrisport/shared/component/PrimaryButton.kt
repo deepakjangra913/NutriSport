@@ -62,14 +62,3 @@ fun PrimaryButton(
         )
     }
 }
-
-@Preview
-@Composable
-fun PrimaryButtonPreview() {
-    PrimaryButton(
-        text = "Update",
-        enabled = false
-    ) {
-
-    }
-}

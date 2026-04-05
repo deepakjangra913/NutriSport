@@ -224,12 +224,3 @@ fun AdminPanelScreen(
         )
     }
 }
-
-@Preview
-@Composable
-fun AdminPanelScreenPreview() {
-    AdminPanelScreen(
-        navigateBack = {},
-        navigateToManageProduct = {}
-    )
-}

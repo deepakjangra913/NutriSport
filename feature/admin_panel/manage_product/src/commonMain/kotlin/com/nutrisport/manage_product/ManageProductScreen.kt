@@ -514,13 +514,3 @@ fun ManageProductScreen(
         }
     }
 }
-
-@Preview
-@Composable
-fun ManageProductScreenPreview() {
-    ManageProductScreen(
-        id = null
-    ) {
-
-    }
-}

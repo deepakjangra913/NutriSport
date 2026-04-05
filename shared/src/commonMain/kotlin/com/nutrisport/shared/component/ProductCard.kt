@@ -163,26 +163,5 @@ fun ProductCard(
     }
 }
 
-@Preview
-@Composable
-fun ProductCardReview() {
-    ProductCard(
-        product = Product(
-            id = "",
-            title = "Nutrend 100% Whey protein",
-            description = "Page layouts look better with something in each section. Web page designers, content writers, and layout artists use lorem ipsum, also known ",
-            thumbnail = "",
-            category = ProductCategory.Accessories.name,
-            flavours = listOf(),
-            weight = 2,
-            price = 100.0,
-            isPopular = false,
-            isDiscounted = false,
-            isNew = false
-        ),
-        onClick = {}
-    )
-}
-
 
 

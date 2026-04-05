@@ -159,13 +159,3 @@ fun CategoryPickerDialog(
         textContentColor = Surface
     )
 }
-
-@Preview
-@Composable
-fun CategoryPickerDialogPreview() {
-    CategoryPickerDialog(
-        onDismiss = {},
-        onConfirmClick = {},
-        category = ProductCategory.Gainers
-    )
-}

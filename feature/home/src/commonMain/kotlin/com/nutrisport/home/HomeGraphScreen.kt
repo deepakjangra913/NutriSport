@@ -61,7 +61,6 @@ import org.koin.compose.viewmodel.koinViewModel
 import rememberMessageBarState
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview
 @Composable
 fun HomeGraphScreen(
     navigateToAuth: () -> Unit,
