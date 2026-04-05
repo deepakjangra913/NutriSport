@@ -36,6 +36,7 @@ include(":feature:core")
 include(":feature:core")
 include(":feature:core")
 include(":feature:home")
+include(":feature:home:products_overview")
 include(":feature:profile")
 
 include(":navigation")
