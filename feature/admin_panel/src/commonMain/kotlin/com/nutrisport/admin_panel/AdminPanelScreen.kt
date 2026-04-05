@@ -176,7 +176,7 @@ fun AdminPanelScreen(
             modifier = Modifier.padding(paddingValues),
             onLoading = {
                 LoadingCard(
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxSize()
                 )
             },
             onSuccess = { lastProducts ->
