@@ -206,6 +206,7 @@ fun DetailsScreen(navigateBack: () -> Unit) {
                             Spacer(modifier = Modifier.height(24.dp))
                         }
 
+                        // Bottom CTA
                         Column(
                             modifier = Modifier
                                 .background(color = if (selectedProduct.flavours?.isNotEmpty() == true) SurfaceLighter else Surface)
