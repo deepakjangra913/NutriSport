@@ -56,7 +56,6 @@ import com.nutrisport.shared.TextPrimary
 import com.nutrisport.shared.navigation.Screen
 import com.nutrisport.shared.util.getScreenWidth
 import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 import rememberMessageBarState
 
@@ -65,7 +64,8 @@ import rememberMessageBarState
 fun HomeGraphScreen(
     navigateToAuth: () -> Unit,
     navigateToProfile: () -> Unit,
-    navigateToAdminPanel: () -> Unit
+    navigateToAdminPanel: () -> Unit,
+    navigateToDetails: (String) -> Unit
 ) {
     val navController = rememberNavController()
     val currentRoute = navController.currentBackStackEntryAsState()
@@ -232,7 +232,7 @@ fun HomeGraphScreen(
                             startDestination = Screen.ProductOverview
                         ) {
                             composable<Screen.ProductOverview> {
-                                ProductsOverviewScreen()
+                                ProductsOverviewScreen(navigateToDetails = navigateToDetails)
                             }
                             composable<Screen.Cart> {
 

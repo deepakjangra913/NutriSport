@@ -40,7 +40,9 @@ import org.koin.compose.viewmodel.koinViewModel
 import kotlin.math.abs
 
 @Composable
-fun ProductsOverviewScreen() {
+fun ProductsOverviewScreen(
+    navigateToDetails: (String) -> Unit
+) {
 
     val viewModel = koinViewModel<ProductsOverviewViewModel>()
     val products by viewModel.products.collectAsStateWithLifecycle()
@@ -94,7 +96,9 @@ fun ProductsOverviewScreen() {
                                         .fillParentMaxWidth(0.6f),
                                     isVisible = isLarge,
                                     product = product,
-                                    onClick = {}
+                                    onClick = { id ->
+                                        navigateToDetails(id)
+                                    }
                                 )
                             }
                         }
@@ -122,7 +126,9 @@ fun ProductsOverviewScreen() {
                                 key = { it.id }) { product ->
                                 ProductCard(
                                     product = product,
-                                    onClick = {}
+                                    onClick = { id ->
+                                        navigateToDetails(id)
+                                    }
                                 )
                             }
                         }

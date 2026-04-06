@@ -1,5 +1,6 @@
 package com.nutrisport.shared
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.ui.graphics.Color
 
 val GrayLighter = Color(0xFFFAFAFA)
@@ -28,6 +29,7 @@ val SurfaceSecondary = Orange
 
 val BorderIdle = GrayDarker
 val BorderError = Red
+val BorderSecondary = Orange
 
 val TextPrimary = Black
 val TextSecondary = Orange

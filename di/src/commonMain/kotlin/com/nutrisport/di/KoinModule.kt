@@ -8,6 +8,7 @@ import com.nutrisport.data.ProductsRepositoryImpl
 import com.nutrisport.data.domain.AdminRepository
 import com.nutrisport.data.domain.CustomerRepository
 import com.nutrisport.data.domain.ProductsRepository
+import com.nutrisport.details.DetailsViewModel
 import com.nutrisport.home.HomeGraphViewModel
 import com.nutrisport.manage_product.ManageProductViewModel
 import com.nutrisport.products_overview.ProductsOverviewViewModel
@@ -37,6 +38,8 @@ val sharedModule = module {
     viewModelOf(::ManageProductViewModel)
     viewModelOf(::AdminPanelViewModel)
     viewModelOf(::ProductsOverviewViewModel)
+    viewModelOf(::ProductsOverviewViewModel)
+    viewModelOf(::DetailsViewModel)
 }
 
 /**
