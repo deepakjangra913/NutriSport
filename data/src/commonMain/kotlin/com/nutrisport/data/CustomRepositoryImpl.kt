@@ -1,6 +1,7 @@
 package com.nutrisport.data
 
 import com.nutrisport.data.domain.CustomerRepository
+import com.nutrisport.shared.domain.CartItem
 import com.nutrisport.shared.domain.Customer
 import com.nutrisport.shared.util.RequestState
 import dev.gitlive.firebase.Firebase
@@ -76,11 +77,12 @@ class CustomRepositoryImpl : CustomerRepository {
                     .document(userId)
                     .snapshots.collectLatest { document ->
                         if (document.exists) {
-                            val privateDataDocument = database.collection(collectionPath = "customer")
-                                .document(userId)
-                                .collection("privateData")
-                                .document("role")
-                                .get()
+                            val privateDataDocument =
+                                database.collection(collectionPath = "customer")
+                                    .document(userId)
+                                    .collection("privateData")
+                                    .document("role")
+                                    .get()
 
                             val customer = Customer(
                                 id = document.id,
@@ -162,6 +164,39 @@ class CustomRepositoryImpl : CustomerRepository {
             }
         } catch (ex: Exception) {
             onError("Error while updating a Customer Information: ${ex.message}")
+        }
+    }
+
+    override suspend fun addItemToCart(
+        cartItem: CartItem,
+        onSuccess: () -> Unit,
+        onError: (String) -> Unit
+    ) {
+        try {
+            val currentUserId = getCurrentUserId()
+            if (currentUserId != null) {
+                val database = Firebase.firestore
+                val customerCollection = database.collection(collectionPath = "customer")
+
+                val existingCustomer = customerCollection.document(currentUserId).get()
+                if (existingCustomer.exists) {
+                    val existingCart = existingCustomer.get<List<CartItem>>("cart")
+                    val updatedCart = existingCart + cartItem
+                    customerCollection.document(currentUserId)
+                        .set(
+                            data = mapOf("cart" to updatedCart),
+                            merge = true
+                        )
+
+                    onSuccess()
+                } else {
+                    onError("Select customer does not exist.")
+                }
+            } else {
+                onError("User is not available")
+            }
+        } catch (ex: Exception) {
+            onError("Error while adding a product to cart: ${ex.message}")
         }
     }
 }

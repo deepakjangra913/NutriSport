@@ -36,6 +36,7 @@ fun QuantityCounter(
 ) {
 
     Row(
+        modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(size.spacing)
     ) {

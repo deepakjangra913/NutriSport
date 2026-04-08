@@ -69,6 +69,7 @@ fun DetailsScreen(navigateBack: () -> Unit) {
     val viewModel = koinViewModel<DetailsViewModel>()
     val product by viewModel.product.collectAsStateWithLifecycle()
     val quantity = viewModel.quantity
+    val selectedFlavour = viewModel.selectedFlavour
 
     Scaffold(
         containerColor = Surface,
@@ -247,7 +248,10 @@ fun DetailsScreen(navigateBack: () -> Unit) {
                                     selectedProduct.flavours?.forEach { flavour ->
                                         FlavourChip(
                                             flavour = flavour,
-                                            isSelected = true
+                                            isSelected = selectedFlavour == flavour,
+                                            onClick = {
+                                                viewModel.updateFlavour(flavour)
+                                            }
                                         )
                                         Spacer(modifier = Modifier.width(8.dp))
                                     }
@@ -258,7 +262,18 @@ fun DetailsScreen(navigateBack: () -> Unit) {
                             PrimaryButton(
                                 icon = Resources.Icon.ShoppingCart,
                                 text = "Add to Cart",
-                                onClick = {}
+                                enabled = if (selectedProduct.flavours?.isNotEmpty() == true) selectedFlavour != null
+                                else true,
+                                onClick = {
+                                    viewModel.addItemToCart(
+                                        onSuccess = {
+                                            messageBarState.addSuccess("Product added to cart")
+                                        },
+                                        onError = { message ->
+                                            messageBarState.addError(message)
+                                        }
+                                    )
+                                }
                             )
                         }
                     }
