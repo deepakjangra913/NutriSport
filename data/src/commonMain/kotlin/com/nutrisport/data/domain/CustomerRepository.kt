@@ -30,5 +30,12 @@ interface CustomerRepository {
         onError: (String) -> Unit
     )
 
+    suspend fun updateCartItemQuantity(
+        id: String,
+        quantity: Int,
+        onSuccess: () -> Unit,
+        onError: (String) -> Unit
+    )
+
     fun getCurrentUserId(): String?
 }
