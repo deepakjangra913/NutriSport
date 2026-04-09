@@ -140,9 +140,10 @@ fun CartItemCard(
             ) {
 
                 Text(
-                    text = "${product.price}",
+                    text = "$${product.price}",
                     fontSize = FontSize.EXTRA_REGULAR,
                     color = TextSecondary,
+                    fontWeight = FontWeight.Medium,
                     maxLines = 1,
                 )
 
