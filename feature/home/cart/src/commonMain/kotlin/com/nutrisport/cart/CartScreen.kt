@@ -75,7 +75,15 @@ fun CartScreen() {
                                         }
                                     )
                                 },
-                                onDeleteClick = {}
+                                onDeleteClick = {
+                                    viewModel.deleteCartItem(
+                                        pair.first.id,
+                                        onSuccess = {},
+                                        onError = { message ->
+                                            messageBarState.addError(message)
+                                        }
+                                    )
+                                }
                             )
                         }
                     }
