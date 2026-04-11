@@ -61,7 +61,7 @@ fun CategoryCard(
         Spacer(modifier = Modifier.width(12.dp))
 
         Text(
-            text = productCategory.title.uppercase(),
+            text = productCategory.name,
             fontSize = FontSize.EXTRA_MEDIUM,
             color = TextPrimary,
             fontFamily = BebasNeueFont(),

@@ -14,7 +14,7 @@ import com.nutrisport.shared.domain.ProductCategory
 
 @Composable
 fun CategoriesScreen(
-    onClick: (ProductCategory) -> Unit
+    navigateToCategoriesSearch: (String) -> Unit
 ) {
     Column(
         modifier = Modifier.fillMaxSize()
@@ -26,7 +26,7 @@ fun CategoriesScreen(
             CategoryCard(
                 productCategory = productCategory,
                 onClick = {
-                        onClick(productCategory)
+                    navigateToCategoriesSearch(productCategory.name)
                 }
             )
         }

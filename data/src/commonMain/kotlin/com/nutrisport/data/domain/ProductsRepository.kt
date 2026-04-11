@@ -1,6 +1,7 @@
 package com.nutrisport.data.domain
 
 import com.nutrisport.shared.domain.Product
+import com.nutrisport.shared.domain.ProductCategory
 import com.nutrisport.shared.util.RequestState
 import kotlinx.coroutines.flow.Flow
 
@@ -15,4 +16,6 @@ interface ProductsRepository {
     fun readProductByIdFlow(id: String): Flow<RequestState<Product>>
 
     fun readProductByIdsFlow(ids: List<String>): Flow<RequestState<List<Product>>>
- }
+
+    fun readProductsByCategoryFlow(category: ProductCategory): Flow<RequestState<List<Product>>>
+}

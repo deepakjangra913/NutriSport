@@ -67,7 +67,8 @@ fun HomeGraphScreen(
     navigateToAuth: () -> Unit,
     navigateToProfile: () -> Unit,
     navigateToAdminPanel: () -> Unit,
-    navigateToDetails: (String) -> Unit
+    navigateToDetails: (String) -> Unit,
+    navigateToCategorySearch: (String) -> Unit
 ) {
     val navController = rememberNavController()
     val currentRoute = navController.currentBackStackEntryAsState()
@@ -241,9 +242,7 @@ fun HomeGraphScreen(
                             }
                             composable<Screen.Categories> {
                                 CategoriesScreen(
-                                    onClick = {
-
-                                    }
+                                    navigateToCategoriesSearch = navigateToCategorySearch
                                 )
                             }
                         }
