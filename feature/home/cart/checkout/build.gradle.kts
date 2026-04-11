@@ -19,7 +19,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "home"
+            baseName = "checkout"
             isStatic = true
         }
     }
@@ -37,22 +37,16 @@ kotlin {
 
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
-            implementation(libs.compose.navigation)
             implementation(libs.messagebar.kmp)
 
             implementation(project(path = ":shared"))
             implementation(project(path = ":data"))
-            implementation(project(path = ":feature:home:products_overview"))
-            implementation(project(path = ":feature:home:cart"))
-            implementation(project(path = ":feature:home:categories"))
-            implementation(project(path = ":feature:home:categories:category_search"))
-            implementation(project(path = ":feature:home:cart:checkout"))
         }
     }
 }
 
 android {
-    namespace = "org.nutrisport.home"
+    namespace = "org.nutrisport.checkout"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
@@ -69,4 +63,3 @@ android {
 dependencies {
     debugImplementation(compose.uiTooling)
 }
-

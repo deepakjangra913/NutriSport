@@ -61,6 +61,9 @@ fun SetUpNavigationGraph(startDestination: Screen = Screen.Auth) {
                 },
                 navigateToCategorySearch = { categoryName ->
                     navController.navigate(Screen.CategorySearchScreen(categoryName))
+                },
+                navigateToCheckoutScreen = { totalAmount ->
+                    navController.navigate(Screen.Checkout(totalAmount))
                 }
             )
         }
@@ -114,6 +117,10 @@ fun SetUpNavigationGraph(startDestination: Screen = Screen.Auth) {
                     navController.navigate(Screen.Details(id))
                 }
             )
+        }
+
+        composable<Screen.Checkout> {
+
         }
     }
 }

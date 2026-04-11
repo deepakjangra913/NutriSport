@@ -2,11 +2,11 @@ package com.nutrisport.home
 
 import ContentWithMessageBar
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -18,6 +18,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -56,6 +57,7 @@ import com.nutrisport.shared.Surface
 import com.nutrisport.shared.SurfaceLighter
 import com.nutrisport.shared.TextPrimary
 import com.nutrisport.shared.navigation.Screen
+import com.nutrisport.shared.util.RequestState
 import com.nutrisport.shared.util.getScreenWidth
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -68,12 +70,14 @@ fun HomeGraphScreen(
     navigateToProfile: () -> Unit,
     navigateToAdminPanel: () -> Unit,
     navigateToDetails: (String) -> Unit,
-    navigateToCategorySearch: (String) -> Unit
+    navigateToCategorySearch: (String) -> Unit,
+    navigateToCheckoutScreen: (String) -> Unit
 ) {
     val navController = rememberNavController()
     val currentRoute = navController.currentBackStackEntryAsState()
     val viewModel = koinViewModel<HomeGraphViewModel>()
     val customer by viewModel.customerData.collectAsStateWithLifecycle()
+    val totalAmount by viewModel.totalAmountFlow.collectAsStateWithLifecycle(RequestState.Loading)
 
     val selectedDestination by remember {
         derivedStateOf {
@@ -181,28 +185,58 @@ fun HomeGraphScreen(
                                 )
                             }
                         },
+                        actions = {
+                            AnimatedVisibility(
+                                visible = selectedDestination == BottomBarDestination.Cart
+                            ) {
+                                IconButton(
+                                    onClick = {
+                                        if (totalAmount.isSuccess()) {
+                                            navigateToCheckoutScreen(
+                                                totalAmount.getSuccessData().toString()
+                                            )
+                                        } else if (totalAmount.isError()) {
+                                            messageBarState.addError("Error while calculating a total amount: ${totalAmount.getErrorMessage()}")
+                                        }
+                                    }
+                                ) {
+                                    Icon(
+                                        painter = painterResource(Resources.Icon.RightArrow),
+                                        contentDescription = "Right Arrow",
+                                        tint = IconPrimary
+                                    )
+                                }
+                            }
+
+                        },
                         navigationIcon = {
                             AnimatedContent(
                                 targetState = drawerState
                             ) { drawer ->
                                 if (drawer.isOpened()) {
-                                    Icon(
-                                        modifier = Modifier.clickable {
+                                    IconButton(
+                                        onClick = {
                                             drawerState = drawerState.opposite()
-                                        },
-                                        painter = painterResource(Resources.Icon.Close),
-                                        contentDescription = "Close Icon",
-                                        tint = IconPrimary
-                                    )
+                                        }
+                                    ) {
+                                        Icon(
+                                            painter = painterResource(Resources.Icon.Close),
+                                            contentDescription = "Close Icon",
+                                            tint = IconPrimary
+                                        )
+                                    }
                                 } else {
-                                    Icon(
-                                        modifier = Modifier.clickable {
+                                    IconButton(
+                                        onClick = {
                                             drawerState = drawerState.opposite()
-                                        },
-                                        painter = painterResource(Resources.Icon.Menu),
-                                        contentDescription = "Menu Icon",
-                                        tint = IconPrimary
-                                    )
+                                        }
+                                    ) {
+                                        Icon(
+                                            painter = painterResource(Resources.Icon.Menu),
+                                            contentDescription = "Menu Icon",
+                                            tint = IconPrimary
+                                        )
+                                    }
                                 }
                             }
                         },

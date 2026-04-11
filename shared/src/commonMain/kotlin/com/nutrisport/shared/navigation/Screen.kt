@@ -69,4 +69,9 @@ sealed class Screen {
 
     @Serializable
     data class Details(val id: String) : Screen()
+
+    @Serializable
+    data class Checkout(
+        val totalAmount: String
+    ) : Screen()
 }
