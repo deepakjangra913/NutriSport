@@ -53,7 +53,7 @@ kotlin {
 }
 
 android {
-    namespace = "org.deepak.shared"
+    namespace = "org.nutrisport.shared"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {

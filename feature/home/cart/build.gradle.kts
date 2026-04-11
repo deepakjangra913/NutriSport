@@ -59,7 +59,7 @@ kotlin {
 }
 
 android {
-    namespace = "org.deepak.cart"
+    namespace = "org.nutrisport.cart"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {

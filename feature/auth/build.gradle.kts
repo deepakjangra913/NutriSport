@@ -50,7 +50,7 @@ kotlin {
 }
 
 android {
-    namespace = "org.deepak.auth"
+    namespace = "org.nutrisport.auth"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {

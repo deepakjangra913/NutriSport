@@ -38,6 +38,7 @@ include(":feature:core")
 include(":feature:details")
 include(":feature:home")
 include(":feature:home:cart")
+include(":feature:home:categories")
 include(":feature:home:products_overview")
 include(":feature:profile")
 

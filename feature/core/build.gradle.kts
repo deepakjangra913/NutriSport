@@ -30,7 +30,7 @@ kotlin {
 }
 
 android {
-    namespace = "org.deepak.core"
+    namespace = "org.nutrisport.core"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {

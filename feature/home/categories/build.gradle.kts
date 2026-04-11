@@ -19,7 +19,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "profile"
+            baseName = "categories"
             isStatic = true
         }
     }
@@ -35,11 +35,6 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
 
-            implementation(libs.messagebar.kmp)
-
-            implementation(libs.koin.compose)
-            implementation(libs.koin.compose.viewmodel)
-
             implementation(project(path = ":shared"))
             implementation(project(path = ":data"))
         }
@@ -47,7 +42,7 @@ kotlin {
 }
 
 android {
-    namespace = "org.nutrisport.profile"
+    namespace = "org.nutrisport.categories"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {

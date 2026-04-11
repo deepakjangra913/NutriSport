@@ -52,7 +52,7 @@ kotlin {
 }
 
 android {
-    namespace = "org.deepak.di"
+    namespace = "org.nutrisport.di"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {

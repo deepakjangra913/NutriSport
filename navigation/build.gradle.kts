@@ -49,7 +49,7 @@ kotlin {
 }
 
 android {
-    namespace = "org.deepak.navigation"
+    namespace = "org.nutrisport.navigation"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {

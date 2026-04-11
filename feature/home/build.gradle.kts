@@ -44,12 +44,13 @@ kotlin {
             implementation(project(path = ":data"))
             implementation(project(path = ":feature:home:products_overview"))
             implementation(project(path = ":feature:home:cart"))
+            implementation(project(path = ":feature:home:categories"))
         }
     }
 }
 
 android {
-    namespace = "org.deepak.home"
+    namespace = "org.nutrisport.home"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {

@@ -39,6 +39,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.nutrisport.cart.CartScreen
+import com.nutrisport.categories.CategoriesScreen
 import com.nutrisport.home.component.BottomBar
 import com.nutrisport.home.component.CustomDrawer
 import com.nutrisport.home.domain.BottomBarDestination
@@ -239,7 +240,11 @@ fun HomeGraphScreen(
                                 CartScreen()
                             }
                             composable<Screen.Categories> {
+                                CategoriesScreen(
+                                    onClick = {
 
+                                    }
+                                )
                             }
                         }
                         Spacer(modifier = Modifier.height(12.dp))
