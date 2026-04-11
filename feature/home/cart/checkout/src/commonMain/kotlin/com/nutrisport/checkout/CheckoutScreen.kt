@@ -1,6 +1,8 @@
 package com.nutrisport.checkout
 
 import ContentWithMessageBar
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -22,7 +24,10 @@ import com.nutrisport.shared.IconPrimary
 import com.nutrisport.shared.Resources
 import com.nutrisport.shared.Surface
 import com.nutrisport.shared.TextPrimary
+import com.nutrisport.shared.component.PrimaryButton
+import com.nutrisport.shared.component.ProfileForm
 import org.jetbrains.compose.resources.painterResource
+import org.koin.compose.viewmodel.koinViewModel
 import rememberMessageBarState
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -32,6 +37,9 @@ fun CheckoutScreen(
     navigateBack: () -> Unit
 ) {
     val messageBarState = rememberMessageBarState()
+    val viewModel = koinViewModel<CheckoutViewModel>()
+    val screenState = viewModel.screenState
+    val isFormValid = viewModel.isFormValid
 
     Scaffold(
         containerColor = Surface,
@@ -79,17 +87,59 @@ fun CheckoutScreen(
             )
         }
     ) { paddingValues ->
-        ContentWithMessageBar(
-            modifier = Modifier.fillMaxSize()
-                .padding(
-                    top = paddingValues.calculateTopPadding(),
-                    bottom = paddingValues.calculateBottomPadding()
-                ),
-            messageBarState = messageBarState,
-            errorMaxLines = 2,
-            contentBackgroundColor = Surface
-        ) {
 
+        ContentWithMessageBar(
+            modifier = Modifier.padding(
+                top = paddingValues.calculateTopPadding(),
+                bottom = paddingValues.calculateBottomPadding()
+            ),
+            contentBackgroundColor = Surface,
+            messageBarState = messageBarState,
+            errorMaxLines = 2
+        ) {
+            Column(
+                modifier = Modifier.fillMaxSize()
+                    .padding(
+                        top = 12.dp,
+                        bottom = 24.dp
+                    )
+                    .padding(horizontal = 24.dp),
+                verticalArrangement = Arrangement.SpaceBetween
+            ) {
+                ProfileForm(
+                    modifier = Modifier.weight(1f),
+                    firstName = screenState.firstName,
+                    country = screenState.country,
+                    onCountrySelect = viewModel::updateCountry,
+                    onFirstNameChange = viewModel::updateFirstName,
+                    lastName = screenState.lastName,
+                    onLastNameChange = viewModel::updateLastName,
+                    email = screenState.email,
+                    city = screenState.city,
+                    onCityChange = viewModel::updateCity,
+                    postalCode = screenState.postalCode,
+                    onPostalCodeChange = viewModel::updatePostalCode,
+                    address = screenState.address,
+                    onAddressChange = viewModel::updateAddress,
+                    phoneNumber = screenState.phoneNumber?.number,
+                    onPhoneNumberChange = viewModel::updatePhoneNumber
+                )
+
+                PrimaryButton(
+                    text = "Pay on Delivery",
+                    icon = Resources.Icon.ShoppingCart,
+                    secondary = true,
+                    enabled = isFormValid,
+                    onClick = {
+                        viewModel.updateCustomer(
+                            onSuccess = {},
+                            onError = { message ->
+                                messageBarState.addError(message)
+                            }
+                        )
+                    }
+                )
+            }
         }
     }
 }

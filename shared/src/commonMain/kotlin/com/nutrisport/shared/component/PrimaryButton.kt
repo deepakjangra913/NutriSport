@@ -17,12 +17,12 @@ import androidx.compose.ui.unit.dp
 import com.nutrisport.shared.Alpha
 import com.nutrisport.shared.ButtonDisabled
 import com.nutrisport.shared.ButtonPrimary
+import com.nutrisport.shared.ButtonSecondary
 import com.nutrisport.shared.FontSize
 import com.nutrisport.shared.Resources
 import com.nutrisport.shared.TextPrimary
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun PrimaryButton(
@@ -30,6 +30,7 @@ fun PrimaryButton(
     text: String,
     enabled: Boolean = true,
     icon: DrawableResource? = Resources.Icon.Checkmark,
+    secondary: Boolean = false,
     onClick: () -> Unit
 ) {
     Button(
@@ -39,7 +40,7 @@ fun PrimaryButton(
         enabled = enabled,
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(
-            containerColor = ButtonPrimary,
+            containerColor = if (secondary) ButtonSecondary else ButtonPrimary,
             contentColor = TextPrimary,
             disabledContainerColor = ButtonDisabled,
             disabledContentColor = TextPrimary.copy(alpha = Alpha.DISABLED)

@@ -4,6 +4,7 @@ import com.nutrisport.admin_panel.AdminPanelViewModel
 import com.nutrisport.auth.AuthViewModel
 import com.nutrisport.cart.CartViewModel
 import com.nutrisport.category_search.CategorySearchViewModel
+import com.nutrisport.checkout.CheckoutViewModel
 import com.nutrisport.data.AdminRepositoryImpl
 import com.nutrisport.data.CustomRepositoryImpl
 import com.nutrisport.data.ProductsRepositoryImpl
@@ -43,6 +44,7 @@ val sharedModule = module {
     viewModelOf(::CartViewModel)
     viewModelOf(::DetailsViewModel)
     viewModelOf(::CategorySearchViewModel)
+    viewModelOf(::CheckoutViewModel)
 }
 
 /**
