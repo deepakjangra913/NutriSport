@@ -270,4 +270,32 @@ class CustomRepositoryImpl : CustomerRepository {
             onError("Error while updating a product to cart: ${ex.message}")
         }
     }
+
+    override suspend fun deleteAllCartItems(
+        onSuccess: () -> Unit,
+        onError: (String) -> Unit
+    ) {
+        try {
+            val currentUserId = getCurrentUserId()
+            if (currentUserId != null) {
+                val database = Firebase.firestore
+                val customerCollection = database.collection(collectionPath = "customer")
+
+                val existingCustomer = customerCollection.document(currentUserId).get()
+                if (existingCustomer.exists) {
+                    customerCollection.document(currentUserId)
+                        .update(
+                            data = mapOf("cart" to emptyList<List<CartItem>>())
+                        )
+                    onSuccess()
+                } else {
+                    onError("Select customer does not exist.")
+                }
+            } else {
+                onError("User is not available")
+            }
+        } catch (ex: Exception) {
+            onError("Error while deleting all product from cart: ${ex.message}")
+        }
+    }
 }

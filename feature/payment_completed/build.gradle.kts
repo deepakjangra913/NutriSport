@@ -5,7 +5,6 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
-    alias(libs.plugins.serialization)
 }
 
 kotlin {
@@ -20,12 +19,20 @@ kotlin {
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "navigation"
+            baseName = "payment_completed"
             isStatic = true
         }
     }
 
     sourceSets {
+        androidMain.dependencies {
+            implementation(libs.androidx.activity.compose)
+            implementation(libs.ktor.android.client)
+        }
+        iosMain.dependencies {
+            implementation(libs.ktor.darwin.client)
+        }
+
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
@@ -35,24 +42,19 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
-            implementation(libs.kotlinx.serialization)
-            implementation(libs.compose.navigation)
-            implementation(project(path = ":feature:auth"))
-            implementation(project(path = ":feature:home"))
-            implementation(project(path = ":feature:home:categories:category_search"))
-            implementation(project(path = ":feature:home:cart:checkout"))
-            implementation(project(path = ":feature:profile"))
-            implementation(project(path = ":feature:admin_panel"))
-            implementation(project(path = ":feature:payment_completed"))
-            implementation(project(path = ":feature:details"))
-            implementation(project(path = ":feature:admin_panel:manage_product"))
+
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
+            implementation(libs.messagebar.kmp)
+
             implementation(project(path = ":shared"))
+            implementation(project(path = ":data"))
         }
     }
 }
 
 android {
-    namespace = "org.nutrisport.navigation"
+    namespace = "org.nutrisport.payment_completed"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {

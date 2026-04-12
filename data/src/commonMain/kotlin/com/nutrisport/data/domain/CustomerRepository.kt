@@ -43,5 +43,10 @@ interface CustomerRepository {
         onError: (String) -> Unit
     )
 
+    suspend fun deleteAllCartItems(
+        onSuccess: () -> Unit,
+        onError: (String) -> Unit
+    )
+
     fun getCurrentUserId(): String?
 }

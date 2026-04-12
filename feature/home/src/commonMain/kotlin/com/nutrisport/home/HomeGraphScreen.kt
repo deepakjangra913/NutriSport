@@ -200,11 +200,13 @@ fun HomeGraphScreen(
                                         }
                                     }
                                 ) {
-                                    Icon(
-                                        painter = painterResource(Resources.Icon.RightArrow),
-                                        contentDescription = "Right Arrow",
-                                        tint = IconPrimary
-                                    )
+                                    if (customer.isSuccess() && customer.getSuccessData().cart.isNotEmpty()) {
+                                        Icon(
+                                            painter = painterResource(Resources.Icon.RightArrow),
+                                            contentDescription = "Right Arrow",
+                                            tint = IconPrimary
+                                        )
+                                    }
                                 }
                             }
 

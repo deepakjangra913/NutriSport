@@ -7,9 +7,11 @@ import com.nutrisport.category_search.CategorySearchViewModel
 import com.nutrisport.checkout.CheckoutViewModel
 import com.nutrisport.data.AdminRepositoryImpl
 import com.nutrisport.data.CustomRepositoryImpl
+import com.nutrisport.data.OrderRepositoryImpl
 import com.nutrisport.data.ProductsRepositoryImpl
 import com.nutrisport.data.domain.AdminRepository
 import com.nutrisport.data.domain.CustomerRepository
+import com.nutrisport.data.domain.OrderRepository
 import com.nutrisport.data.domain.ProductsRepository
 import com.nutrisport.details.DetailsViewModel
 import com.nutrisport.home.HomeGraphViewModel
@@ -35,6 +37,7 @@ val sharedModule = module {
     single<CustomerRepository> { CustomRepositoryImpl() }
     single<AdminRepository> { AdminRepositoryImpl() }
     single<ProductsRepository> { ProductsRepositoryImpl() }
+    single<OrderRepository> { OrderRepositoryImpl(customerRepository = get()) }
     viewModelOf(::AuthViewModel)
     viewModelOf(::HomeGraphViewModel)
     viewModelOf(::ProfileViewModel)

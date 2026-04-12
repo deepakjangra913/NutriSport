@@ -34,7 +34,8 @@ import rememberMessageBarState
 @Composable
 fun CheckoutScreen(
     totalAmount: Double,
-    navigateBack: () -> Unit
+    navigateBack: () -> Unit,
+    navigateToPaymentCompleted: (Boolean?, String?) -> Unit
 ) {
     val messageBarState = rememberMessageBarState()
     val viewModel = koinViewModel<CheckoutViewModel>()
@@ -131,10 +132,12 @@ fun CheckoutScreen(
                     secondary = true,
                     enabled = isFormValid,
                     onClick = {
-                        viewModel.updateCustomer(
-                            onSuccess = {},
+                        viewModel.payOnDelivery(
+                            onSuccess = {
+                                navigateToPaymentCompleted(true, null)
+                            },
                             onError = { message ->
-                                messageBarState.addError(message)
+                                navigateToPaymentCompleted(null, message)
                             }
                         )
                     }
