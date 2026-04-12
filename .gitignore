@@ -21,3 +21,9 @@ node_modules/
 # Firebase
 google-services.json
 GoogleService-Info.plist
+
+# Environment / secrets
+.env
+.env.*
+keys.properties
+secrets.properties

@@ -1,4 +1,13 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.util.Properties
+val localProperties = Properties().apply {
+    val file = rootProject.file("local.properties")
+    if (file.exists()) {
+        load(file.inputStream())
+    }
+}
+val paypalClientId = localProperties.getProperty("PAYPAL_CLIENT_ID") ?: ""
+val paypalSecret = localProperties.getProperty("PAYPAL_SECRET") ?: ""
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -56,9 +65,15 @@ android {
     namespace = "org.nutrisport.shared"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
+    buildFeatures {
+        buildConfig = true
+    }
+
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
+        buildConfigField("String", "PAYPAL_CLIENT_ID", "\"$paypalClientId\"")
+        buildConfigField("String", "PAYPAL_SECRET", "\"$paypalSecret\"")
     }
 
     compileOptions {
