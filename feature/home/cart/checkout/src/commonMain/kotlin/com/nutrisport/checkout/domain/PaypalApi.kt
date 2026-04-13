@@ -15,9 +15,12 @@ import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.util.encodeBase64
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
+import openWebBrowser
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
@@ -35,7 +38,6 @@ class PaypalApi {
     }
 
     private val _accessToken = MutableStateFlow("")
-    val accessToken = _accessToken.asStateFlow()
 
     suspend fun fetchAccessToken(
         onSuccess: (String) -> Unit,
@@ -74,7 +76,7 @@ class PaypalApi {
         onSuccess: () -> Unit,
         onError: (String) -> Unit
     ) {
-        if (accessToken.value.isNotEmpty()) {
+        if (_accessToken.value.isEmpty()) {
             onError("Error while starting the checkout: Access token is empty")
             return
         }
@@ -99,7 +101,7 @@ class PaypalApi {
             urlString = PAYPAL_CHECKPOINT_ENDPOINT
         ) {
             headers {
-                append(HttpHeaders.Authorization, "Bearer ${accessToken.value}")
+                append(HttpHeaders.Authorization, "Bearer ${_accessToken.value}")
                 append(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                 append("PayPal-Request-Id", uniqueId)
             }
@@ -108,12 +110,29 @@ class PaypalApi {
 
         if (response.status == HttpStatusCode.OK) {
             val orderResponse = response.body<OrderResponse>()
-            val payerLink = orderResponse.links.firstOrNull { it.rel == "payer-action"}?.href ?: ""
-
-            println("PAYPAL RESPONSE: $orderResponse")
-            println("PAYPAL PAYER LINK: $payerLink")
+            val payerLink = orderResponse.links.firstOrNull { it.rel == "payer-action" }?.href ?: ""
+            withContext(Dispatchers.Main) {
+                handleUrl(
+                    url = payerLink,
+                    onSuccess = onSuccess,
+                    onError = onError
+                )
+            }
         } else {
             onError("Error while starting the checkout: ${response.status} - ${response.bodyAsText()}")
         }
+    }
+
+    private fun handleUrl(
+        url: String?,
+        onSuccess: () -> Unit,
+        onError: (String) -> Unit
+    ) {
+        if (url == null) {
+            onError("Error while opening a web browser: URL is null")
+            return
+        }
+        openWebBrowser(url)
+        onSuccess()
     }
 }

@@ -49,6 +49,7 @@ kotlin {
             implementation(project(path = ":feature:home:cart:checkout"))
             implementation(project(path = ":feature:details"))
             implementation(project(path = ":data"))
+            implementation(project(path = ":shared"))
         }
     }
 }

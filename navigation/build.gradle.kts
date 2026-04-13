@@ -37,6 +37,8 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.kotlinx.serialization)
             implementation(libs.compose.navigation)
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
             implementation(project(path = ":feature:auth"))
             implementation(project(path = ":feature:home"))
             implementation(project(path = ":feature:home:categories:category_search"))

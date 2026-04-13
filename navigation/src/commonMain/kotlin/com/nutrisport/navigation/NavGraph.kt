@@ -1,6 +1,9 @@
 package com.nutrisport.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -16,10 +19,22 @@ import com.nutrisport.payment_completed.PaymentCompletedScreen
 import com.nutrisport.profile.ProfileScreen
 import com.nutrisport.shared.domain.ProductCategory
 import com.nutrisport.shared.navigation.Screen
+import com.nutrisport.shared.util.IntentHandler
+import org.koin.compose.koinInject
 
 @Composable
 fun SetUpNavigationGraph(startDestination: Screen = Screen.Auth) {
     val navController = rememberNavController()
+    val intentHandler: IntentHandler = koinInject<IntentHandler>()
+    val navigateTo by intentHandler.navigateTo.collectAsStateWithLifecycle()
+
+    LaunchedEffect(navigateTo) {
+        navigateTo?.let { paymentCompleted ->
+            navController.navigate(paymentCompleted)
+            intentHandler.resetNavigation()
+        }
+    }
+
     NavHost(
         navController = navController,
         startDestination = startDestination
@@ -143,7 +158,7 @@ fun SetUpNavigationGraph(startDestination: Screen = Screen.Auth) {
             val isSuccess = it.toRoute<Screen.PaymentCompleted>().isSuccess
             val error = it.toRoute<Screen.PaymentCompleted>().error
             PaymentCompletedScreen(isSuccess, error, navigateBack = {
-                navController.navigate(Screen.HomeGraph){
+                navController.navigate(Screen.HomeGraph) {
                     launchSingleTop = true
                     // Clear backstack
                     popUpTo(0) {
