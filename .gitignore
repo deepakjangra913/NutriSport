@@ -27,3 +27,6 @@ GoogleService-Info.plist
 .env.*
 keys.properties
 secrets.properties
+
+#iosApp
+iosApp/Configuration/Secrets.xcconfig

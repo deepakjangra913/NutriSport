@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>GIDServerClientID</key>
-	<string>771528812551-8qvq0pk8eecfavuvimtp712lt7h1h4mh.apps.googleusercontent.com</string>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleURLTypes</key>
@@ -17,5 +15,11 @@
 	</array>
 	<key>GIDClientID</key>
 	<string>771528812551-bm1iml5ketm9ennfek1gqvsi4ipdhfag.apps.googleusercontent.com</string>
+	<key>GIDServerClientID</key>
+	<string>771528812551-8qvq0pk8eecfavuvimtp712lt7h1h4mh.apps.googleusercontent.com</string>
+	<key>PaypalClientID</key>
+	<string>$(PAYPAL_CLIENT_ID)</string>
+	<key>PaypalSecret</key>
+	<string>$(PAYPAL_SECRET)</string>
 </dict>
 </plist>
