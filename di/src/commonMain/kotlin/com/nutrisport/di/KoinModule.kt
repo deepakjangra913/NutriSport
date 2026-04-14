@@ -1,5 +1,6 @@
 package com.nutrisport.di
 
+import com.nutrisport.PaymentViewModel
 import com.nutrisport.admin_panel.AdminPanelViewModel
 import com.nutrisport.auth.AuthViewModel
 import com.nutrisport.cart.CartViewModel
@@ -52,6 +53,7 @@ val sharedModule = module {
     viewModelOf(::DetailsViewModel)
     viewModelOf(::CategorySearchViewModel)
     viewModelOf(::CheckoutViewModel)
+    viewModelOf(::PaymentViewModel)
 }
 
 /**

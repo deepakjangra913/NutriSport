@@ -10,18 +10,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.nutrisport.PaymentViewModel
 import com.nutrisport.shared.Resources
 import com.nutrisport.shared.Surface
 import com.nutrisport.shared.component.InfoCard
+import com.nutrisport.shared.component.LoadingCard
 import com.nutrisport.shared.component.PrimaryButton
+import com.nutrisport.shared.util.DisplayResult
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun PaymentCompletedScreen(
-    isSuccess: Boolean?,
-    error: String?,
     navigateBack: () -> Unit
 ) {
+
+    val viewModel = koinViewModel<PaymentViewModel>()
+    val screenState = viewModel.screenState
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -29,32 +35,52 @@ fun PaymentCompletedScreen(
             .systemBarsPadding()
             .padding(all = 24.dp)
     ) {
-        Box(
-            modifier = Modifier.weight(1f),
-            contentAlignment = Alignment.Center
-        ) {
-            InfoCard(
-                title = if (isSuccess != null) "Success!" else "Oops!",
-                subTitle = if (isSuccess != null) "Your purchase is on the way." else error
-                    ?: "Unknown error.",
-                icon = if (isSuccess != null) Resources.Image.Checkmark else Resources.Image.Cat
-            )
-        }
-        PrimaryButton(
-            text = "Go Back",
-            icon = Resources.Icon.RightArrow,
-            onClick = navigateBack
+        screenState.DisplayResult(
+            onLoading = {
+                LoadingCard(
+                    modifier = Modifier.fillMaxSize()
+                )
+            },
+            onSuccess = {
+                Column(modifier = Modifier.fillMaxSize()) {
+                    Box(
+                        modifier = Modifier.weight(1f),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        InfoCard(
+                            title = "Success!",
+                            subTitle = "Your purchase is on the way.",
+                            icon = Resources.Image.Checkmark
+                        )
+                    }
+
+                    PrimaryButton(
+                        text = "Go Back",
+                        icon = Resources.Icon.RightArrow,
+                        onClick = navigateBack
+                    )
+                }
+            },
+            onError = { message ->
+                Column(modifier = Modifier.fillMaxSize()) {
+                    Box(
+                        modifier = Modifier.weight(1f),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        InfoCard(
+                            title = "Oops!",
+                            subTitle = message,
+                            icon = Resources.Image.Cat
+                        )
+                    }
+
+                    PrimaryButton(
+                        text = "Go Back",
+                        icon = Resources.Icon.RightArrow,
+                        onClick = navigateBack
+                    )
+                }
+            }
         )
-    }
-}
-
-@Preview
-@Composable
-fun PaymentCompletedScreenPreview() {
-    PaymentCompletedScreen(
-        isSuccess = true,
-        error = ""
-    ){
-
     }
 }

@@ -11,11 +11,13 @@ class IntentHandler {
 
     fun navigateToPaymentCompleted(
         isSuccess: Boolean?,
-        error: String?
+        error: String?,
+        token: String?
     ) {
         _navigateTo.value = Screen.PaymentCompleted(
             isSuccess = isSuccess,
-            error = error
+            error = error,
+            token = token
         )
     }
 

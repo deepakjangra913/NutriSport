@@ -155,9 +155,7 @@ fun SetUpNavigationGraph(startDestination: Screen = Screen.Auth) {
         }
 
         composable<Screen.PaymentCompleted> {
-            val isSuccess = it.toRoute<Screen.PaymentCompleted>().isSuccess
-            val error = it.toRoute<Screen.PaymentCompleted>().error
-            PaymentCompletedScreen(isSuccess, error, navigateBack = {
+            PaymentCompletedScreen(navigateBack = {
                 navController.navigate(Screen.HomeGraph) {
                     launchSingleTop = true
                     // Clear backstack
