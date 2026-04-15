@@ -18,6 +18,12 @@ plugins {
 }
 
 kotlin {
+    targets.withType<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget> {
+        binaries.all {
+            freeCompilerArgs += "-Xdisable-phases=EscapeAnalysis"
+        }
+    }
+
     androidTarget {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
@@ -52,6 +58,9 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.kotlinx.serialization)
+
+            implementation(libs.koin.core)
+            implementation(libs.koin.compose)
 
             implementation(libs.coil3)
             implementation(libs.coil3.compose)

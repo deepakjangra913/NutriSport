@@ -9,6 +9,7 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
+				<string>org.deepak.nutrisport</string>
 				<string>com.googleusercontent.apps.771528812551-bm1iml5ketm9ennfek1gqvsi4ipdhfag</string>
 			</array>
 		</dict>
