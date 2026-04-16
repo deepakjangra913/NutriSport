@@ -1,7 +1,7 @@
 import SwiftUI
 import GoogleSignIn
 import Firebase
-import shared
+import ComposeApp
 
 @main
 struct iOSApp: App {

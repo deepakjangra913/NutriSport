@@ -3,8 +3,6 @@ package com.nutrisport.shared.util
 import com.nutrisport.shared.navigation.Screen
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
 class IntentHandler {
 

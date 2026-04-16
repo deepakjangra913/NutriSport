@@ -9,6 +9,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.nutrisport.shared.util.IntentHandler
+import com.nutrisport.shared.util.PreferencesRepository
 import org.koin.android.ext.android.inject
 
 /**
@@ -64,10 +65,17 @@ class MainActivity : ComponentActivity() {
         val isCancelled = uri?.getQueryParameter("cancel")
         val token = uri?.getQueryParameter("token")
 
-        intentHandler.navigateToPaymentCompleted(
+        PreferencesRepository.savePayPalData(
+            isSuccess = isSuccess?.toBooleanStrictOrNull(),
+            error = if (isCancelled == "null") null
+            else "Payment has been canceled",
+            token = token
+        )
+
+        /*intentHandler.navigateToPaymentCompleted(
             isSuccess = isSuccess?.toBooleanStrictOrNull(),
             error = if (isCancelled == "null") null else "Payment has been canceled",
             token = token
-        )
+        )*/
     }
 }

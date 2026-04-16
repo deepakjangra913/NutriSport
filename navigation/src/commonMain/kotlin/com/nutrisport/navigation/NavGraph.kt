@@ -19,19 +19,27 @@ import com.nutrisport.payment_completed.PaymentCompletedScreen
 import com.nutrisport.profile.ProfileScreen
 import com.nutrisport.shared.domain.ProductCategory
 import com.nutrisport.shared.navigation.Screen
-import com.nutrisport.shared.util.IntentHandler
-import org.koin.compose.koinInject
+import com.nutrisport.shared.util.PreferencesRepository
 
 @Composable
 fun SetUpNavigationGraph(startDestination: Screen = Screen.Auth) {
     val navController = rememberNavController()
-    val intentHandler: IntentHandler = koinInject<IntentHandler>()
-    val navigateTo by intentHandler.navigateTo.collectAsStateWithLifecycle()
+    /*    val intentHandler: IntentHandler = koinInject<IntentHandler>()
+        val navigateTo by intentHandler.navigateTo.collectAsStateWithLifecycle()
 
-    LaunchedEffect(navigateTo) {
-        navigateTo?.let { paymentCompleted ->
-            navController.navigate(paymentCompleted)
-            intentHandler.resetNavigation()
+        LaunchedEffect(navigateTo) {
+            navigateTo?.let { paymentCompleted ->
+                navController.navigate(paymentCompleted)
+                intentHandler.resetNavigation()
+            }
+        }*/
+
+    val preferenceData by PreferencesRepository.readPayPalDataFlow()
+        .collectAsStateWithLifecycle(initialValue = null)
+    LaunchedEffect(preferenceData) {
+        preferenceData?.let { paymentStatusUpdated ->
+            navController.navigate(paymentStatusUpdated)
+            PreferencesRepository.reset()
         }
     }
 
