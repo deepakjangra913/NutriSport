@@ -8,9 +8,7 @@ import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.nutrisport.shared.util.IntentHandler
 import com.nutrisport.shared.util.PreferencesRepository
-import org.koin.android.ext.android.inject
 
 /**
  * Main entry point Activity for the Android application.
@@ -35,8 +33,6 @@ import org.koin.android.ext.android.inject
  * @see App
  */
 class MainActivity : ComponentActivity() {
-
-    private val intentHandler: IntentHandler by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,11 +67,5 @@ class MainActivity : ComponentActivity() {
             else "Payment has been canceled",
             token = token
         )
-
-        /*intentHandler.navigateToPaymentCompleted(
-            isSuccess = isSuccess?.toBooleanStrictOrNull(),
-            error = if (isCancelled == "null") null else "Payment has been canceled",
-            token = token
-        )*/
     }
 }

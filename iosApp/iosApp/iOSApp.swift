@@ -1,1 +1,46 @@
-ʼ
+import SwiftUI
+import GoogleSignIn
+import Firebase
+import ComposeApp
+
+@main
+struct iOSApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    
+    var body: some Scene {
+        WindowGroup {
+            ContentView().onOpenURL(perform: { url in
+                    print("Received URL in onOpenURL: \(url)")
+                
+                if GIDSignIn.sharedInstance.handle(url){
+                    return
+                }
+                
+                guard let components = URLComponents(url: url,
+                resolvingAgainstBaseURL: true),
+                      let queryItems = components.queryItems else { return }
+                
+                let success = queryItems.first(where: { $0.name == "success" })?.value == "true"
+                
+                let cancel = queryItems.first(where: { $0.name == "cancel" })?.value == "true"
+                
+                let token = queryItems.first(where: { $0.name == "token" })?.value
+
+                PreferencesRepository().savePayPalData(
+                    isSuccess: success ? KotlinBoolean(true) : nil,
+                    error: cancel ? "Payment canceled" : nil,
+                    token: token
+                )
+          })
+         }
+    }
+}
+
+class AppDelegate: NSObject, UIApplicationDelegate {
+    
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+        
+        FirebaseApp.configure()
+        return true
+    }
+}

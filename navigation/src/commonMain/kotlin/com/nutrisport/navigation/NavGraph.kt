@@ -38,8 +38,10 @@ fun SetUpNavigationGraph(startDestination: Screen = Screen.Auth) {
         .collectAsStateWithLifecycle(initialValue = null)
     LaunchedEffect(preferenceData) {
         preferenceData?.let { paymentStatusUpdated ->
-            navController.navigate(paymentStatusUpdated)
-            PreferencesRepository.reset()
+            if (paymentStatusUpdated.token != null){
+                navController.navigate(paymentStatusUpdated)
+                PreferencesRepository.reset()
+            }
         }
     }
 
