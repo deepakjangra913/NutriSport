@@ -22,6 +22,8 @@ kotlin {
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
+
+            export(project(":shared"))
         }
     }
     
@@ -50,7 +52,7 @@ kotlin {
             implementation(libs.koin.compose)
 
             implementation(project(path = ":navigation"))
-            implementation(project(path= ":shared"))
+            api(project(path= ":shared"))
             implementation(project(path= ":di"))
             implementation(project(path= ":data"))
         }
