@@ -266,7 +266,7 @@ class CustomRepositoryImpl : CustomerRepository {
                 onError("User is not available")
             }
         } catch (ex: Exception) {
-            onError("Error while updating a product to cart: ${ex.message}")
+            onError("Error while deleting a product to cart: ${ex.message}")
         }
     }
 
@@ -294,7 +294,7 @@ class CustomRepositoryImpl : CustomerRepository {
                 onError("User is not available")
             }
         } catch (ex: Exception) {
-            onError("Error while deleting all product from cart: ${ex.message}")
+            onError("Error while deleting all products from cart: ${ex.message}")
         }
     }
 }

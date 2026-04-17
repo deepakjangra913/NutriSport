@@ -15,6 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.nutrisport.shared.BebasNeueFont
@@ -42,6 +43,11 @@ fun ProfileScreen(
     val screenReady = viewModel.screenReady
     val messageBarState = rememberMessageBarState()
     val isFormValid = viewModel.isFormValid
+
+    LaunchedEffect(isFormValid)
+    {
+        println("isFormValid -> $isFormValid")
+    }
 
     Scaffold(
         containerColor = Surface,

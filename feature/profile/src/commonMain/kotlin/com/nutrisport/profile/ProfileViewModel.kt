@@ -48,7 +48,7 @@ class ProfileViewModel(
             firstName.length in 3..50 &&
                     lastName.length in 3..50 &&
                     city?.length in 3..50 &&
-                    postalCode != null || postalCode?.toString()?.length in 3..8 &&
+                    (postalCode != null && postalCode.toString().length in 3..8) &&
                     address?.length in 3..50 &&
                     phoneNumber?.number?.length in 5..30
         }
@@ -126,6 +126,7 @@ class ProfileViewModel(
     }
 
     fun updatePhoneNumber(value: String) {
+        println("updatePhoneNumber -> $value")
         screenState =
             screenState.copy(
                 phoneNumber = PhoneNumber(
