@@ -38,9 +38,8 @@ class CustomRepositoryImpl : CustomerRepository {
                     val existingUser = getCurrentUser()
                     customerCollection.document(user.uid)
                         .update(
-                            customer.copy(
-                                updatedAt = currentTime,
-                                createdAt = existingUser?.createdAt
+                            mapOf(
+                                "updatedAt" to currentTime
                             )
                         )
                     onSuccess()
