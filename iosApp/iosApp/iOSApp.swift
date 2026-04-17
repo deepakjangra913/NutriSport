@@ -2,6 +2,9 @@ import SwiftUI
 import GoogleSignIn
 import Firebase
 import ComposeApp
+import FirebaseCore
+import FirebaseMessaging
+import shared
 
 @main
 struct iOSApp: App {
@@ -27,7 +30,7 @@ struct iOSApp: App {
                 let token = queryItems.first(where: { $0.name == "token" })?.value
 
                 PreferencesRepository().savePayPalData(
-                    isSuccess: success ? KotlinBoolean(true) : nil,
+                    isSuccess: success ? KotlinBoolean(value: true) : nil,
                     error: cancel ? "Payment canceled" : nil,
                     token: token
                 )
@@ -41,6 +44,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         
         FirebaseApp.configure()
+        NotifierManager.shared.initialize(configuration: NotificationPlatformConfigurationIos(showPushNotification: true, askNotificationPermissionOnStart: true, notificationSoundName: nil))
         return true
     }
 }

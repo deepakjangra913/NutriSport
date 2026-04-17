@@ -23,7 +23,7 @@ kotlin {
             baseName = "ComposeApp"
             isStatic = true
 
-            export(project(":shared"))
+            export(libs.kmp.notifier)
         }
     }
     
@@ -51,8 +51,10 @@ kotlin {
 
             implementation(libs.koin.compose)
 
+            api(libs.kmp.notifier)
+
             implementation(project(path = ":navigation"))
-            api(project(path= ":shared"))
+            implementation(project(path= ":shared"))
             implementation(project(path= ":di"))
             implementation(project(path= ":data"))
         }

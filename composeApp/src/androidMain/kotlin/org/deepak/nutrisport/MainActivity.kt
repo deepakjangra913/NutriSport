@@ -8,6 +8,9 @@ import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.mmk.kmpnotifier.notification.NotifierManager
+import com.mmk.kmpnotifier.notification.configuration.NotificationPlatformConfiguration
+import com.mmk.kmpnotifier.permission.permissionUtil
 import com.nutrisport.shared.util.PreferencesRepository
 
 /**
@@ -35,8 +38,6 @@ import com.nutrisport.shared.util.PreferencesRepository
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
         installSplashScreen()
         enableEdgeToEdge(
             statusBarStyle = SystemBarStyle.light(
@@ -48,6 +49,17 @@ class MainActivity : ComponentActivity() {
                 Color.TRANSPARENT
             )
         )
+        super.onCreate(savedInstanceState)
+
+        NotifierManager.initialize(
+            configuration = NotificationPlatformConfiguration.Android(
+                notificationIconResId = R.drawable.ic_launcher_foreground,
+                showPushNotification = true
+            )
+        )
+
+        val permissionUtil by permissionUtil()
+        permissionUtil.askNotificationPermission()
         setContent {
             App()
         }
